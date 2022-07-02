@@ -8,19 +8,18 @@ class Tag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        right: 20,
+        right: 10,
         bottom: 10,
       ),
       padding: EdgeInsets.symmetric(
         vertical: 5,
-        // horizontal: 15,
+        horizontal: 15,
       ),
-      width: 80,
+      height: 25,
+      // width: 70,
       decoration: BoxDecoration(border: Border.all(color: Color(0xff122F2D))),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-      ),
+      child: Text(text,
+          textAlign: TextAlign.center, style: TextStyle(fontSize: 12)),
     );
   }
 }

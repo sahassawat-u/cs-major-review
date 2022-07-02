@@ -1,14 +1,18 @@
-import 'package:cs_major_review/widgets/discussion.dart';
+import 'package:cs_major_review/pages/forum_filtering.dart';
+import 'package:cs_major_review/widgets/forum_bubble.dart';
+import 'package:cs_major_review/widgets/forum_category.dart';
 import 'package:flutter/material.dart';
+
+enum Category { TAG, RECENT, DISCUSS }
 
 class ForumPage extends StatefulWidget {
   const ForumPage({Key? key}) : super(key: key);
-
   @override
   State<ForumPage> createState() => _ForumPageState();
 }
 
 class _ForumPageState extends State<ForumPage> {
+  Category? which;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,80 +26,107 @@ class _ForumPageState extends State<ForumPage> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 50,
+                  height: 35,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Icon(Icons.search_outlined),
-                  SizedBox(width: 8),
-                  Icon(Icons.menu_outlined),
+                  Container(
+                    width: 10,
+                    child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: Icon(
+                          Icons.menu_outlined,
+                          color: Color(0xff0B2E27),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            which = Category.TAG;
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForumFiltering(),
+                            ),
+                          );
+                        }),
+                  ),
                   SizedBox(
-                    width: 30,
+                    width: 40,
                   )
                 ]),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Row(
                   children: [
-                    Text("Forum",
-                        style: TextStyle(
-                          color: Color(0xff102D24),
-                          fontSize: 26,
-                          fontWeight: FontWeight.w600,
-                        )),
+                    Text(
+                      "Forum",
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 20),
-                Row(
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        primary: Colors.red,
-                        onSurface: Colors.red,
-                      ),
-                      // style: ButtonStyle(
-                      //     foregroundColor:
-                      //         MaterialStateProperty.all<Color>(Colors.blue)),
-                      child: Text('Featured Tags'),
-                      onPressed: () {},
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        primary: Colors.red,
-                        onSurface: Colors.red,
-                      ),
-                      // style: ButtonStyle(
-                      //     foregroundColor:
-                      //         MaterialStateProperty.all<Color>(Colors.blue)),
-                      child: Text('Most Recent'),
-                      onPressed: () {},
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        primary: Colors.red,
-                        onSurface: Colors.red,
-                      ),
-                      // style: ButtonStyle(
-                      //     foregroundColor:
-                      //         MaterialStateProperty.all<Color>(Colors.blue)),
-                      child: Text('Most Discussed'),
-                      onPressed: () {},
-                    )
-                  ],
-                )
+                Container(
+                    height: 60,
+                    // height: 100,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        ForumCategory(
+                          onPressed_: (() {
+                            setState(() {
+                              which = Category.TAG;
+                            });
+                          }),
+                          text: "Featured Tags",
+                          isSelected: which == Category.TAG,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        ForumCategory(
+                          onPressed_: (() {
+                            setState(() {
+                              which = Category.RECENT;
+                            });
+                          }),
+                          text: "Most Recent",
+                          isSelected: which == Category.RECENT,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        ForumCategory(
+                          onPressed_: (() {
+                            setState(() {
+                              which = Category.DISCUSS;
+                            });
+                          }),
+                          text: "Most Discussed",
+                          isSelected: which == Category.DISCUSS,
+                        ),
+                      ],
+                    ))
               ],
             )),
         Divider(
-          color: Color(0xff102D24),
+          color: Color(0xff717664),
           thickness: 2,
           height: 0,
         ),
         SizedBox(height: 30),
         Container(
-            child: Column(
-          children: [
-            Discussion(),
-            Discussion(),
-          ],
-        ))
+          height: 500,
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(children: [
+                ForumBubble(),
+                ForumBubble(),
+                ForumBubble(),
+                ForumBubble(),
+                ForumBubble(),
+              ])),
+        ),
       ]),
     ));
   }
