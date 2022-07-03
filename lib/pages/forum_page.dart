@@ -1,6 +1,10 @@
+import 'package:cs_major_review/data/forum_data.dart';
+import 'package:cs_major_review/models/forum_model.dart';
 import 'package:cs_major_review/pages/forum_filtering.dart';
+import 'package:cs_major_review/providers/tags_provider.dart';
 import 'package:cs_major_review/widgets/forum_bubble.dart';
 import 'package:cs_major_review/widgets/forum_category.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 enum Category { TAG, RECENT, DISCUSS }
@@ -13,6 +17,9 @@ class ForumPage extends StatefulWidget {
 
 class _ForumPageState extends State<ForumPage> {
   Category? which;
+  List<Forum> forums = allForums;
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +84,12 @@ class _ForumPageState extends State<ForumPage> {
                             setState(() {
                               which = Category.TAG;
                             });
+                            print(
+                              Provider.of<TagProvider>(context, listen: false)
+                                  .tags,
+                            );
+                            // print(context.read<TagProvider>());
+                            // getTags();
                           }),
                           text: "Featured Tags",
                           isSelected: which == Category.TAG,
@@ -89,6 +102,7 @@ class _ForumPageState extends State<ForumPage> {
                             setState(() {
                               which = Category.RECENT;
                             });
+                            getMostRecentForums();
                           }),
                           text: "Most Recent",
                           isSelected: which == Category.RECENT,
@@ -101,6 +115,7 @@ class _ForumPageState extends State<ForumPage> {
                             setState(() {
                               which = Category.DISCUSS;
                             });
+                            getMostDiscussedForums();
                           }),
                           text: "Most Discussed",
                           isSelected: which == Category.DISCUSS,
@@ -114,20 +129,93 @@ class _ForumPageState extends State<ForumPage> {
           thickness: 2,
           height: 0,
         ),
-        SizedBox(height: 30),
+        // SizedBox(height: 30),
         Container(
+          margin: EdgeInsets.only(top: 30),
           height: 500,
           child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(children: [
-                ForumBubble(),
-                ForumBubble(),
-                ForumBubble(),
-                ForumBubble(),
-                ForumBubble(),
-              ])),
+            scrollDirection: Axis.vertical,
+            child: Column(
+                children: List.generate(forums.length, (index) {
+              return ForumBubble(
+                forum: forums[index],
+              );
+            })),
+          ),
         ),
       ]),
     ));
+  }
+
+  void getMostRecentForums() {
+    allForums.sort(
+      (a, b) {
+        final dateA = a.createdBy.split(' ');
+        final monthA = dateA[1];
+        final dayA = dateA[2];
+        final dateB = b.createdBy.split(' ');
+        final monthB = dateB[1];
+        final dayB = dateB[2];
+        int numA = dateToNum(monthA, dayA);
+        int numB = dateToNum(monthB, dayB);
+        return (numA).compareTo(numB);
+      },
+    );
+    setState() {
+      this.forums = allForums;
+    }
+  }
+
+  int dateToNum(String month, String day) {
+    int? month_;
+    switch (month) {
+      case 'Jan':
+        month_ = 0;
+        break;
+      case 'Feb':
+        month_ = 31;
+        break;
+      case 'Mar':
+        month_ = 59;
+        break;
+      case 'Apr':
+        month_ = 90;
+        break;
+      case 'May':
+        month_ = 120;
+        break;
+      case 'Jun':
+        month_ = 151;
+        break;
+      case 'Jul':
+        month_ = 181;
+        break;
+      case 'Aug':
+        month_ = 212;
+        break;
+      case 'Sep':
+        month_ = 243;
+        break;
+      case 'Oct':
+        month_ = 273;
+        break;
+      case 'Nov':
+        month_ = 304;
+        break;
+      case 'Dec':
+        month_ = 334;
+        break;
+      default:
+    }
+    return (month_ == null) ? -1 : month_ + int.parse(day);
+  }
+
+  void getMostDiscussedForums() {
+    allForums.sort(
+      (a, b) => b.num.compareTo(a.num),
+    );
+    setState() {
+      this.forums = allForums;
+    }
   }
 }

@@ -1,8 +1,15 @@
+import 'package:cs_major_review/providers/tags_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cs_major_review/pages/forum_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => TagProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

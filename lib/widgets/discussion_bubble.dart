@@ -1,7 +1,9 @@
+import 'package:cs_major_review/models/discussion_model.dart';
 import 'package:flutter/material.dart';
 
 class DiscussBubble extends StatelessWidget {
-  const DiscussBubble({Key? key}) : super(key: key);
+  final Discussion discussion;
+  const DiscussBubble({Key? key, required this.discussion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class DiscussBubble extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text("User ",
+                Text(discussion.user,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.start),
               ],
@@ -21,8 +23,7 @@ class DiscussBubble extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text(
-                      "I really love this class, but it required a lot of disclipline, worth the reading and studying"),
+                  child: Text(discussion.comment),
                 )
               ],
             )

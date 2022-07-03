@@ -1,4 +1,10 @@
-import 'package:cs_major_review/widgets/tag.dart';
+import 'package:cs_major_review/data/tags_data.dart';
+import 'package:cs_major_review/data/uni_data.dart';
+import 'package:cs_major_review/widgets/clickable_tag.dart';
+import 'package:cs_major_review/widgets/filtered_top.dart';
+import 'package:cs_major_review/widgets/search.dart';
+import 'package:cs_major_review/providers/tags_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class ForumFiltering extends StatefulWidget {
@@ -9,6 +15,16 @@ class ForumFiltering extends StatefulWidget {
 }
 
 class _ForumFilteringState extends State<ForumFiltering> {
+  String query = "";
+  bool isSearch = false;
+  List<String> unis = allUnis;
+  List<String> tags = allTags;
+  List<bool> flagList = List.filled(allTags.length, false);
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,103 +51,78 @@ class _ForumFilteringState extends State<ForumFiltering> {
                   Text(
                     "University",
                     textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
-              TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Search for uni")),
-              SizedBox(height: 15),
-              Container(
-                color: Colors.red,
-                height: 50,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Tag(
-                      text: "DSOOP",
-                    ),
-                    Tag(
-                      text: "ALGO",
-                    ),
-                    Tag(
-                      text: "DSOOP",
-                    ),
-                    Expanded(
-                      child: Tag(
-                        text: "DSOOP",
-                      ),
-                    ),
-                    // Tag(
-                    //   text: "DSOOP",
-                    // ),
-                  ],
-                ),
-              ),
+              const SizedBox(height: 15),
+              Search(
+                  text: query,
+                  onChanged: searchUni,
+                  hintText: "Search for university"),
+              query != "" ? FilteredTop(uni: unis) : Text(""),
+              const SizedBox(height: 15),
+              // Container(
+              //   width: double.infinity,
+              //   child: Wrap(children: [
+              //     ClickableTag(text: "Mahidol Uni."),
+              //     ClickableTag(text: "Chulalongkorn Uni."),
+              //     ClickableTag(text: "Kasetsart Uni."),
+              //   ]),
+              // ),
+              const SizedBox(height: 20),
               Row(children: [
                 Text(
                   "Course",
                   textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ]),
-              SizedBox(height: 15),
-              Wrap(
-
-                  // crossAxisAlignment: WrapCrossAlignment.start,
-                  // color: Colors.red,
-                  // height: 400,
-                  children: [
-                    Tag(text: "TESTSTETT"),
-                    Tag(text: "TESTSTETT"),
-                    Tag(text: "TESTSTETT"),
-                    Tag(text: "TESTSTETT"),
-                    Tag(text: "DSss"),
-                    Tag(text: "DSss"),
-                    Tag(text: "DSss"),
-                    Tag(text: "x"),
-                    Tag(text: "x"),
-                    Tag(text: "x"),
-                  ]),
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Tag(
-              //       text: "DSOOP",
-              //     ),
-              //     Tag(
-              //       text: "ALGO",
-              //     ),
-              //     Tag(
-              //       text: "D",
-              //     ),
-              //     Expanded(
-              //       child: Tag(
-              //         text: "DSOOP",
-              //       ),
-              //     ),
-              //     // Tag(
-              //     //   text: "DSOOP",
-              //     // ),
-              //     // Tag(
-              //     //   text: "DSOOP",
-              //     // ),
-              //     // Tag(
-              //     //   text: "DSOOP",
-              //     // ),
-              //   ],
-              // ),
+              const SizedBox(height: 15),
+              Container(
+                width: double.infinity,
+                // height: 320,
+                child: Wrap(
+                    children: List.generate(tags.length, (index) {
+                  // print();
+                  return ClickableTag(
+                      text: tags[index],
+                      // isSelected: toBeUsedTags.contains(tags[index]),
+                      isSelected:
+                          context.read<TagProvider>().contains(tags[index]),
+                      onTap_: () {
+                        // setState() {
+                        if (!context
+                            .read<TagProvider>()
+                            .contains(tags[index])) {
+                          setState(() {});
+                          // toBeUsedTags.add(tags[index]);
+                          // context.read<Tag
+                          context.read<TagProvider>().addTag(tags[index]);
+                        } else {
+                          setState(() {});
+                          context.read<TagProvider>().removeTag(tags[index]);
+                        }
+                      });
+                })),
+              ),
               SizedBox(
-                height: 30,
+                height: 150,
               ),
               Container(
-                // padding: const EdgeInsets.only(right: 40),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
                       child: ElevatedButton(
                           onPressed: () {
+                            // saveTags(this.toBeUsedTags);
                             Navigator.pop(context);
                           },
                           child: Text("Apply", style: TextStyle()),
@@ -153,7 +144,7 @@ class _ForumFilteringState extends State<ForumFiltering> {
                             ),
                           )),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Expanded(
                       child: ElevatedButton(
                           onPressed: () {},
@@ -182,5 +173,17 @@ class _ForumFilteringState extends State<ForumFiltering> {
             ],
           )),
     );
+  }
+
+  void searchUni(String query) {
+    final unis = allUnis.where((uni) {
+      final name = uni.toLowerCase();
+      final search = query.toLowerCase();
+      return name.contains(search);
+    }).toList();
+    setState(() {
+      this.query = query;
+      this.unis = unis;
+    });
   }
 }

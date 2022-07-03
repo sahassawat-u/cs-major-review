@@ -15,11 +15,11 @@ class Tag extends StatelessWidget {
         vertical: 5,
         horizontal: 15,
       ),
-      height: 25,
-      // width: 70,
+      height: 23,
+      constraints: BoxConstraints(minWidth: 50),
       decoration: BoxDecoration(border: Border.all(color: Color(0xff122F2D))),
       child: Text(text,
-          textAlign: TextAlign.center, style: TextStyle(fontSize: 12)),
+          textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
     );
   }
 }

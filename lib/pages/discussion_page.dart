@@ -1,9 +1,12 @@
+import 'package:cs_major_review/models/forum_model.dart';
+import 'package:cs_major_review/widgets/clickable_tag.dart';
 import 'package:cs_major_review/widgets/discussion_bubble.dart';
 import 'package:cs_major_review/widgets/tag.dart';
 import 'package:flutter/material.dart';
 
 class DiscussonPage extends StatefulWidget {
-  const DiscussonPage({Key? key}) : super(key: key);
+  final Forum forum;
+  const DiscussonPage({Key? key, required this.forum}) : super(key: key);
 
   @override
   State<DiscussonPage> createState() => _DiscussonPageState();
@@ -32,21 +35,21 @@ class _DiscussonPageState extends State<DiscussonPage> {
         Column(children: [
           Row(
             children: [
-              Text("Let's talk about Algorithms",
+              Text(widget.forum.topic,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600))
             ],
           ),
           Row(
             children: [
               Text("created By ", style: TextStyle(color: Color(0xffB2B9B9))),
-              Text("Jaehyun")
+              Text(widget.forum.user)
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("14 Discussions"),
-              Text("Fri July 7 2022",
+              Text(widget.forum.num.toString() + " Discussions"),
+              Text(widget.forum.createdBy,
                   style: TextStyle(
                     color: Color(0xffB2B9B9),
                   ))
@@ -57,23 +60,23 @@ class _DiscussonPageState extends State<DiscussonPage> {
         Row(
           children: [
             Expanded(
-                child: Text(
-                    "We have good lecturers here, so it is fun and very useful, recommneded!",
+                child: Text(widget.forum.comment,
                     style: TextStyle(
                       fontSize: 18,
                     )))
           ],
         ),
         SizedBox(height: 28),
-        Row(
-          children: [
-            Tag(
-              text: "DSOOP",
-            ),
-            Tag(
-              text: "ALGO",
-            )
-          ],
+        Container(
+          width: double.infinity,
+          child: Wrap(
+              children: List.generate(widget.forum.tags.length, (index) {
+            return ClickableTag(
+              isSelected: false,
+              text: widget.forum.tags[index],
+              onTap_: () {},
+            );
+          })),
         ),
         SizedBox(height: 20),
         Container(
@@ -81,14 +84,19 @@ class _DiscussonPageState extends State<DiscussonPage> {
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
-                children: [
-                  DiscussBubble(),
-                  DiscussBubble(),
-                  DiscussBubble(),
-                  DiscussBubble(),
-                  DiscussBubble(),
-                ],
-              ),
+                  children:
+                      List.generate(widget.forum.discussions.length, (index) {
+                return DiscussBubble(
+                    discussion: widget.forum.discussions[index]);
+              })
+                  // [
+                  //   DiscussBubble(),
+                  //   DiscussBubble(),
+                  //   DiscussBubble(),
+                  //   DiscussBubble(),
+                  //   DiscussBubble(),
+                  // ],
+                  ),
             )),
         // Column(
         //   children: [DiscussBubble(), DiscussBubble()],
