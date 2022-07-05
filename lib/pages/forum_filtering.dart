@@ -20,10 +20,12 @@ class _ForumFilteringState extends State<ForumFiltering> {
   List<String> unis = allUnis;
   List<String> tags = allTags;
   List<bool> flagList = List.filled(allTags.length, false);
+  // List<String> uniTags = [];
   // @override
   // void initState() {
   //   super.initState();
   // }
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,19 +62,71 @@ class _ForumFilteringState extends State<ForumFiltering> {
               ),
               const SizedBox(height: 15),
               Search(
-                  text: query,
-                  onChanged: searchUni,
-                  hintText: "Search for university"),
-              query != "" ? FilteredTop(uni: unis) : Text(""),
+                controller: controller,
+                isUsedIcon: true,
+                text: query,
+                onChanged: searchUni,
+                hintText: "Search for university",
+              ),
+              query.isNotEmpty
+                  ? unis.length != 0
+                      ? Container(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              for (var uni in unis.sublist(
+                                  0, unis.length < 5 ? unis.length : 6))
+                                GestureDetector(
+                                  onTap: () {
+                                    if (!context
+                                        .read<TagProvider>()
+                                        .contains(uni + " Uni.")) {
+                                      setState(() {
+                                        context
+                                            .read<TagProvider>()
+                                            .addTag(uni + " Uni.");
+                                        allUnis.remove(uni);
+                                        unis.remove(uni);
+                                      });
+                                      controller.clear();
+                                    }
+                                  },
+                                  child: Text(
+                                    uni,
+                                  ),
+                                )
+                            ],
+                          ))
+                      : Text("No match found", textAlign: TextAlign.center)
+                  : Text(""),
               const SizedBox(height: 15),
-              // Container(
-              //   width: double.infinity,
-              //   child: Wrap(children: [
-              //     ClickableTag(text: "Mahidol Uni."),
-              //     ClickableTag(text: "Chulalongkorn Uni."),
-              //     ClickableTag(text: "Kasetsart Uni."),
-              //   ]),
-              // ),
+              Container(
+                width: double.infinity,
+                // height: 320,
+                child: Wrap(
+                    children: List.generate(
+                        Provider.of<TagProvider>(context, listen: false)
+                            .tags
+                            .where((element) => element.contains("Uni"))
+                            .toList()
+                            .length, (index) {
+                  final uniTags =
+                      Provider.of<TagProvider>(context, listen: false)
+                          .tags
+                          .where((element) => element.contains("Uni"))
+                          .toList();
+                  return ClickableTag(
+                      text: uniTags[index],
+                      isSelected: true,
+                      onTap_: () {
+                        setState(() {
+                          allUnis.add(uniTags[index].split(" ")[0]);
+                          context.read<TagProvider>().removeTag(uniTags[index]);
+                        });
+                      });
+                })),
+              ),
               const SizedBox(height: 20),
               Row(children: [
                 Text(

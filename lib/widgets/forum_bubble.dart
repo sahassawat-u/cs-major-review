@@ -49,7 +49,7 @@ class ForumBubble extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(forum.num.toString() + " Discussions"),
+                Text(forum.discussions.length.toString() + " Discussions"),
                 Text(forum.createdBy,
                     style: TextStyle(
                       color: Color(0xffB2B9B9),

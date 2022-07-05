@@ -26,110 +26,105 @@ class _ForumPageState extends State<ForumPage> {
         body: Container(
       child: Column(children: [
         Container(
-            width: double.infinity,
-            height: 220,
-            padding: EdgeInsets.only(left: 40),
-            color: Color(0xffFCEBB8),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 35,
+          width: double.infinity,
+          height: 220,
+          padding: EdgeInsets.only(left: 40),
+          color: Color(0xffFCEBB8),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 35,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Container(
+                  width: 10,
+                  child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        Icons.menu_outlined,
+                        color: Color(0xff0B2E27),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          which = Category.TAG;
+                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForumFiltering(),
+                          ),
+                        );
+                      }),
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Container(
-                    width: 10,
-                    child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: Icon(
-                          Icons.menu_outlined,
-                          color: Color(0xff0B2E27),
-                        ),
-                        onPressed: () {
+                SizedBox(
+                  width: 40,
+                )
+              ]),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text(
+                    "Forum",
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Container(
+                  height: 60,
+                  // height: 100,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      ForumCategory(
+                        onPressed_: (() {
                           setState(() {
                             which = Category.TAG;
                           });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ForumFiltering(),
-                            ),
-                          );
+                          getTaggedForums();
                         }),
-                  ),
-                  SizedBox(
-                    width: 40,
-                  )
-                ]),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text(
-                      "Forum",
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w600,
+                        text: "Featured Tags",
+                        isSelected: which == Category.TAG,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Container(
-                    height: 60,
-                    // height: 100,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        ForumCategory(
-                          onPressed_: (() {
-                            setState(() {
-                              which = Category.TAG;
-                            });
-                            print(
-                              Provider.of<TagProvider>(context, listen: false)
-                                  .tags,
-                            );
-                            // print(context.read<TagProvider>());
-                            // getTags();
-                          }),
-                          text: "Featured Tags",
-                          isSelected: which == Category.TAG,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        ForumCategory(
-                          onPressed_: (() {
-                            setState(() {
-                              which = Category.RECENT;
-                            });
-                            getMostRecentForums();
-                          }),
-                          text: "Most Recent",
-                          isSelected: which == Category.RECENT,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        ForumCategory(
-                          onPressed_: (() {
-                            setState(() {
-                              which = Category.DISCUSS;
-                            });
-                            getMostDiscussedForums();
-                          }),
-                          text: "Most Discussed",
-                          isSelected: which == Category.DISCUSS,
-                        ),
-                      ],
-                    ))
-              ],
-            )),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ForumCategory(
+                        onPressed_: (() {
+                          setState(() {
+                            which = Category.RECENT;
+                          });
+                          getMostRecentForums();
+                        }),
+                        text: "Most Recent",
+                        isSelected: which == Category.RECENT,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ForumCategory(
+                        onPressed_: (() {
+                          setState(() {
+                            which = Category.DISCUSS;
+                          });
+                          getMostDiscussedForums();
+                        }),
+                        text: "Most Discussed",
+                        isSelected: which == Category.DISCUSS,
+                      ),
+                    ],
+                  ))
+            ],
+          ),
+        ),
         Divider(
           color: Color(0xff717664),
           thickness: 2,
           height: 0,
         ),
-        // SizedBox(height: 30),
         Container(
           margin: EdgeInsets.only(top: 30),
           height: 500,
@@ -147,6 +142,31 @@ class _ForumPageState extends State<ForumPage> {
     ));
   }
 
+  void getTaggedForums() {
+    final taggedList =
+        Provider.of<TagProvider>(context, listen: false).tags.toSet();
+    if (taggedList.isNotEmpty) {
+      final tempList = allForums
+          .where((element) =>
+              element.tags.toSet().intersection(taggedList).isNotEmpty)
+          .toList();
+      setState(() {
+        this.forums = tempList;
+      });
+    } else {
+      setState(() {
+        this.forums = allForums;
+      });
+    }
+    // allForums
+    //     .where((ele) => ele.tags.contains(
+    //           ,
+    //         ))
+    //     .toList();
+    // print(allForums.length);
+    // print(allForums[0].tags);
+  }
+
   void getMostRecentForums() {
     allForums.sort(
       (a, b) {
@@ -158,7 +178,7 @@ class _ForumPageState extends State<ForumPage> {
         final dayB = dateB[2];
         int numA = dateToNum(monthA, dayA);
         int numB = dateToNum(monthB, dayB);
-        return (numA).compareTo(numB);
+        return (numB).compareTo(numA);
       },
     );
     setState() {
