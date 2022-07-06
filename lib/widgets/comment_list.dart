@@ -1,4 +1,6 @@
+import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/widgets/base_card.dart';
+import 'package:cs_major_review/widgets/comment_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class CommentList extends StatelessWidget {
@@ -8,226 +10,61 @@ class CommentList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // height: 10,
+      // height:  MediaQuery.of(context).size.height,
       child: ListView(
         shrinkWrap: true,
+        scrollDirection: Axis.vertical,
         children: [
-          BaseCard(
-              theColor: Colors.white,
-              theChild: Row(
-                children: [
-                  Container(
-                    height: 60,
-                    child: CircleAvatar(
-                    )
-                  ),
-                  SizedBox(width: 20,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Name"),
-                      Text("Comment")
-                    ],
-                  ),
-                  Spacer(flex: 2),
-                  Container(
-                    child:
-                    Column(
-                      children: [
-                        Text("Rate: 4"),
-                        Container(
-                          child: RatingBarIndicator(
-                            rating: 4,
-                            itemCount: 5,
-                            itemSize: 15.0,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, _) =>
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
+          CommentCard(rating: 2,
+              title: "title",
+              comment: "Lorem ipsum dolor sit amet, "
+                  "consectetur adipiscing elit, sed do"
+                  " eiusmod tempor incididunt ut labore "
+                  "et dolore magna aliqua. Ut enim ad minim "
+                  "veniam, quis nostrud exercitation ullamco"
+                  " laboris nisi ut aliquip ex ea commodo "
+                  "consequat. Duis aute irure dolor in "
+                  "reprehenderit in voluptate velit esse "
+                  "cillum dolore eu fugiat nulla pariatur. "
+                  "Excepteur sint occaecat cupidatat non proident, "
+                  "sunt in culpa qui officia deserunt mollit anim "
+                  "id est laborum.",
+              date: "date", reviewed_name: "YU"),
+          CommentCard(rating: 5,
+              title: "title",
+              comment: "Lorem ipsum dolor sit amet, "
+                  "consectetur adipiscing elit, sed do"
+                  " eiusmod tempor incididunt ut labore "
+                  "et dolore magna aliqua. Ut enim ad minim "
+                  "veniam, quis nostrud exercitation ullamco"
+                  " laboris nisi ut aliquip ex ea commodo "
+                  "consequat. Duis aute irure dolor in "
+                  "reprehenderit in voluptate velit esse "
+                  "cillum dolore eu fugiat nulla pariatur. "
+                  "Excepteur sint occaecat cupidatat non proident, "
+                  "sunt in culpa qui officia deserunt mollit anim "
+                  "id est laborum.",
+              date: "date", reviewed_name: "YU"),
+          CommentCard(rating: 5,
+              title: "title",
+              comment: "Lorem ipsum dolor sit amet, "
+                  "consectetur adipiscing elit, sed do"
+                  " eiusmod tempor incididunt ut labore "
+                  "et dolore magna aliqua. Ut enim ad minim "
+                  "veniam, quis nostrud exercitation ullamco"
+                  " laboris nisi ut aliquip ex ea commodo "
+                  "consequat. Duis aute irure dolor in "
+                  "reprehenderit in voluptate velit esse "
+                  "cillum dolore eu fugiat nulla pariatur. "
+                  "Excepteur sint occaecat cupidatat non proident, "
+                  "sunt in culpa qui officia deserunt mollit anim "
+                  "id est laborum.",
+              date: "date", reviewed_name: "YU")
 
-                  )
-                ],
-              ),
-              theBorderColor: Colors.white),
-          BaseCard(
-              theColor: Colors.white,
-              theChild: Row(
-                children: [
-                  Container(
-                      height: 60,
-                      child: CircleAvatar(
-                      )
-                  ),
-                  SizedBox(width: 20,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Name"),
-                      Text("Comment")
-                    ],
-                  ),
-                  Spacer(flex: 2),
-                  Container(
-                    child:
-                    Column(
-                      children: [
-                        Text("Rate: 4"),
-                        Container(
-                          child: RatingBarIndicator(
-                            rating: 4,
-                            itemCount: 5,
-                            itemSize: 15.0,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, _) =>
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
 
-                  )
-                ],
-              ),
-              theBorderColor: Colors.white),
-          BaseCard(
-              theColor: Colors.white,
-              theChild: Row(
-                children: [
-                  Container(
-                      height: 60,
-                      child: CircleAvatar(
-                      )
-                  ),
-                  SizedBox(width: 20,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Name"),
-                      Text("Comment")
-                    ],
-                  ),
-                  Spacer(flex: 2),
-                  Container(
-                    child:
-                    Column(
-                      children: [
-                        Text("Rate: 4"),
-                        Container(
-                          child: RatingBarIndicator(
-                            rating: 4,
-                            itemCount: 5,
-                            itemSize: 15.0,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, _) =>
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                  )
-                ],
-              ),
-              theBorderColor: Colors.white),
-          BaseCard(
-              theColor: Colors.white,
-              theChild: Row(
-                children: [
-                  Container(
-                      height: 60,
-                      child: CircleAvatar(
-                      )
-                  ),
-                  SizedBox(width: 20,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Name"),
-                      Text("Comment")
-                    ],
-                  ),
-                  Spacer(flex: 2),
-                  Container(
-                    child:
-                    Column(
-                      children: [
-                        Text("Rate: 4"),
-                        Container(
-                          child: RatingBarIndicator(
-                            rating: 4,
-                            itemCount: 5,
-                            itemSize: 15.0,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, _) =>
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                  )
-                ],
-              ),
-              theBorderColor: Colors.white),
-          BaseCard(
-              theColor: Colors.white,
-              theChild: Row(
-                children: [
-                  Container(
-                      height: 60,
-                      child: CircleAvatar(
-                      )
-                  ),
-                  SizedBox(width: 20,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Name"),
-                      Text("Comment")
-                    ],
-                  ),
-                  Spacer(flex: 2),
-                  Container(
-                    child:
-                    Column(
-                      children: [
-                        Text("Rate: 4"),
-                        Container(
-                          child: RatingBarIndicator(
-                            rating: 4,
-                            itemCount: 5,
-                            itemSize: 15.0,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, _) =>
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                  )
-                ],
-              ),
-              theBorderColor: Colors.white)
         ],
       ),
+
     );
   }
 }

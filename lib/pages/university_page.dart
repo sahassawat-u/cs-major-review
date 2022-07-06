@@ -5,15 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/base_card.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../widgets/search_card.dart';
 import '../widgets/university_list.dart';
-class ReviewPage extends StatefulWidget {
-  const ReviewPage({Key? key}) : super(key: key);
+class UniversityPage extends StatefulWidget {
+  const UniversityPage({Key? key}) : super(key: key);
 
   @override
-  State<ReviewPage> createState() => _ReviewPageState();
+  State<UniversityPage> createState() => _UniversityPageState();
 }
 
-class _ReviewPageState extends State<ReviewPage> {
+class _UniversityPageState extends State<UniversityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +39,8 @@ class _ReviewPageState extends State<ReviewPage> {
                         padding: EdgeInsets.all(85),
                         child: BaseCard(
                           theChild: const Text("Search for your university",
-                            style: TextStyle(color: kFontColor,fontSize: 30),),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: kFontColor,fontSize: 35),),
                           theColor: kBackgroundColor1,
                           theBorderColor: kBackgroundColor1,
                         ),
@@ -52,16 +54,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   left: 50,
                   right: 50,
 
-                    child: BaseCard(
-                      theColor: Colors.white,
-                      theBorderColor: kSearchBorder,
-                      theChild: TextField(
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.search),
-                          hintText: "Search for university"
-                        ),
-                      ),
-                    ),
+                    child: SearchCard()
 
                   ),
                 // Divider(color: kFontColor,),
