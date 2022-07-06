@@ -1,9 +1,18 @@
-import 'package:cs_major_review/pages/university_page.dart';
+
+import 'package:cs_major_review/providers/tags_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:cs_major_review/pages/forum_page.dart';
+import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+void main() {
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => TagProvider()),
+    ],
+    child: const MyApp(),
+  ));
+}
 
-
-void main() => runApp(MyApp());
 
 
 
@@ -13,13 +22,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textTheme: GoogleFonts.averiaSerifLibreTextTheme(
-          Theme.of(context).textTheme,
-        ),
+
+        fontFamily: 'AveriaSerifLibre',
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(),
+          bodyText2: TextStyle(),
+        ).apply(bodyColor: const Color(0xff082D26)),
+      ),
+      title: 'CS Major review',
+      home: ForumPage(),
 
 
       ),
       home: UniversityPage(),
+
     );
   }
 }
