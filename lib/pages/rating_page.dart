@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../constaints.dart';
-import '../widgets/add_comment_button.dart';
 import '../widgets/base_card.dart';
 import '../widgets/comment_list.dart';
 

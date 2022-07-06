@@ -46,6 +46,7 @@ class _UniversityPageState extends State<UniversityPage> {
                         ),
                       ),
                     ),
+                    Divider(color: kFontColor, thickness: 2, height: 2,),
                   ],
                 ),
 
@@ -62,7 +63,7 @@ class _UniversityPageState extends State<UniversityPage> {
               ],
             ),
           ),
-          // Divider(color: kFontColor,),
+
          ReviewList(),
         ],
       ),

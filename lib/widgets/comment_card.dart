@@ -76,6 +76,11 @@ class _CommentCardState extends State<CommentCard> {
                   ),
 
               ),
+
+              Container(
+                  margin: EdgeInsets.fromLTRB(20,5,0,0),
+                  child: Text("14")
+              ),
               SizedBox(height: 10,)
 
             ],
