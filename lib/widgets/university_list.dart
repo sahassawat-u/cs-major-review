@@ -1,7 +1,10 @@
 import 'package:cs_major_review/pages/rating_page.dart';
 import 'package:cs_major_review/widgets/base_card.dart';
+import 'package:cs_major_review/widgets/university_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../constaints.dart';
 
 class ReviewList extends StatelessWidget {
   const ReviewList({Key? key}) : super(key: key);
@@ -17,99 +20,8 @@ class ReviewList extends StatelessWidget {
         //
         //     )
         children: [
-          BaseCard(
-              theOnTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        RatingPage(),
-                  )
-              );},
-              theColor: Colors.white,
-              theChild: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: RatingBarIndicator(
-                      rating: 4,
-                      itemCount: 5,
-                      itemSize: 25.0,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15,),
-                  Container(
-                    child: Text("Mahidol University"),
-                  ),
-                  SizedBox(height: 15,),
-                  // Container(
-                  //   child: Row(
-                  //     children: [
-                  //       Text("reviewed by Yu"),
-                  //       SizedBox(width: 200,),
-                  //       Text("Date")
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(height: 15,),
-                  Container(
-                    child: Text("Preview..."),
-                  ),
-
-                ],
-              ),
-              theBorderColor: Colors.white),
-          BaseCard(
-              theOnTap: (){
-                Navigator.push(
-                  context,
-                    MaterialPageRoute(builder: (context) => RatingPage())
-
-                );
-              },
-              theColor: Colors.white,
-              theChild: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: RatingBarIndicator(
-                      rating: 4,
-                      itemCount: 5,
-                      itemSize: 25.0,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15,),
-                  Container(
-                    child: Text("Mahidol University"),
-                  ),
-                  SizedBox(height: 15,),
-                  // Container(
-                  //   child: Row(
-                  //     children: [
-                  //       Text("reviewed by Yu"),
-                  //       SizedBox(width: 200,),
-                  //       Text("Date")
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(height: 15,),
-                  Container(
-                    child: Text("Preview..."),
-                  ),
-
-                ],
-              ),
-              theBorderColor: Colors.white)
+          UniversityCard(rating: 3, uni_name: "Mahidol University"),
+          UniversityCard(rating: 5, uni_name: "Mahidol University")
         ],
       ),
     );
