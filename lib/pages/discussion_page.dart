@@ -56,8 +56,10 @@ class _DiscussonPageState extends State<DiscussonPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.forum.discussions.length.toString() +
-                      " Discussions"),
+                  Text(widget.forum.discussions.length > 0
+                      ? widget.forum.discussions.length.toString() +
+                          " Discussions"
+                      : ""),
                   Text(widget.forum.createdBy,
                       style: TextStyle(
                         color: Color(0xffB2B9B9),

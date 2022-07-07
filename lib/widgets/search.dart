@@ -28,7 +28,9 @@ class _SearchState extends State<Search> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border.all(
+          // color:
           color: Color(0xff0B302C),
           width: 1,
         ),

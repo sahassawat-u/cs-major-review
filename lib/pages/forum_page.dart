@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/data/forum_data.dart';
 import 'package:cs_major_review/models/forum_model.dart';
+import 'package:cs_major_review/pages/add_post_page.dart';
 import 'package:cs_major_review/pages/forum_filtering.dart';
 import 'package:cs_major_review/providers/tags_provider.dart';
 import 'package:cs_major_review/widgets/forum_bubble.dart';
@@ -17,129 +21,179 @@ class ForumPage extends StatefulWidget {
 
 class _ForumPageState extends State<ForumPage> {
   Category? which;
+  int id = 0;
   List<Forum> forums = allForums;
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => AddPostPage(
+        forums: forums,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
+  void refresh() {
+    id++;
+  }
+
+  FutureOr goBackFilter(dynamic value) {
+    getTaggedForums();
+    setState(() {});
+  }
+
+  FutureOr goBackPost(dynamic value) {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(_createRoute()).then(goBackPost);
+          },
+          child: Container(
+              // height: 8,
+              height: 30,
+              width: 90,
+              decoration: BoxDecoration(
+                border: Border.all(color: kStar, width: 2),
+                color: Colors.white,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [Icon(Icons.edit, color: kStar), Text('Post')],
+              )),
+        ),
         body: Container(
-      child: Column(children: [
-        Container(
-          width: double.infinity,
-          height: 220,
-          padding: EdgeInsets.only(left: 40),
-          color: Color(0xffFCEBB8),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 35,
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                Container(
-                  width: 10,
-                  child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        Icons.menu_outlined,
-                        color: Color(0xff0B2E27),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          which = Category.TAG;
-                        });
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForumFiltering(),
-                          ),
-                        );
-                      }),
-                ),
-                SizedBox(
-                  width: 40,
-                )
-              ]),
-              const SizedBox(height: 10),
-              Row(
+          child: Column(children: [
+            Container(
+              width: double.infinity,
+              height: 220,
+              padding: EdgeInsets.only(left: 40),
+              color: Color(0xffFCEBB8),
+              child: Column(
                 children: [
-                  Text(
-                    "Forum",
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  const SizedBox(
+                    height: 35,
                   ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Container(
-                  height: 60,
-                  // height: 100,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    Container(
+                      width: 10,
+                      child: IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: Icon(
+                            Icons.menu_outlined,
+                            color: Color(0xff0B2E27),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              which = Category.TAG;
+                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ForumFiltering(),
+                              ),
+                            ).then(goBackFilter);
+                          }),
+                    ),
+                    SizedBox(
+                      width: 40,
+                    )
+                  ]),
+                  const SizedBox(height: 10),
+                  Row(
                     children: [
-                      ForumCategory(
-                        onPressed_: (() {
-                          setState(() {
-                            which = Category.TAG;
-                          });
-                          getTaggedForums();
-                        }),
-                        text: "Featured Tags",
-                        isSelected: which == Category.TAG,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      ForumCategory(
-                        onPressed_: (() {
-                          setState(() {
-                            which = Category.RECENT;
-                          });
-                          getMostRecentForums();
-                        }),
-                        text: "Most Recent",
-                        isSelected: which == Category.RECENT,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      ForumCategory(
-                        onPressed_: (() {
-                          setState(() {
-                            which = Category.DISCUSS;
-                          });
-                          getMostDiscussedForums();
-                        }),
-                        text: "Most Discussed",
-                        isSelected: which == Category.DISCUSS,
+                      Text(
+                        "Forum",
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
-                  ))
-            ],
-          ),
-        ),
-        Divider(
-          color: Color(0xff717664),
-          thickness: 2,
-          height: 0,
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 30),
-          height: 500,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-                children: List.generate(forums.length, (index) {
-              return ForumBubble(
-                forum: forums[index],
-              );
-            })),
-          ),
-        ),
-      ]),
-    ));
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                      height: 60,
+                      // height: 100,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          ForumCategory(
+                            onPressed_: (() {
+                              setState(() {
+                                which = Category.TAG;
+                              });
+                              getTaggedForums();
+                            }),
+                            text: "Featured Tags",
+                            isSelected: which == Category.TAG,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          ForumCategory(
+                            onPressed_: (() {
+                              setState(() {
+                                which = Category.RECENT;
+                              });
+                              getMostRecentForums();
+                            }),
+                            text: "Most Recent",
+                            isSelected: which == Category.RECENT,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          ForumCategory(
+                            onPressed_: (() {
+                              setState(() {
+                                which = Category.DISCUSS;
+                              });
+                              getMostDiscussedForums();
+                            }),
+                            text: "Most Discussed",
+                            isSelected: which == Category.DISCUSS,
+                          ),
+                        ],
+                      ))
+                ],
+              ),
+            ),
+            Divider(
+              color: Color(0xff102D24),
+              thickness: 2,
+              height: 0,
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 30),
+              height: 500,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                    children: List.generate(forums.length, (index) {
+                  return ForumBubble(
+                    forum: forums[index],
+                  );
+                })),
+              ),
+            ),
+          ]),
+        ));
   }
 
   void getTaggedForums() {
@@ -232,7 +286,7 @@ class _ForumPageState extends State<ForumPage> {
 
   void getMostDiscussedForums() {
     allForums.sort(
-      (a, b) => b.num.compareTo(a.num),
+      (a, b) => b.discussions.length.compareTo(a.discussions.length),
     );
     setState() {
       this.forums = allForums;

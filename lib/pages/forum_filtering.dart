@@ -19,7 +19,6 @@ class _ForumFilteringState extends State<ForumFiltering> {
   bool isSearch = false;
   List<String> unis = allUnis;
   List<String> tags = allTags;
-  List<bool> flagList = List.filled(allTags.length, false);
   // List<String> uniTags = [];
   // @override
   // void initState() {
@@ -76,7 +75,7 @@ class _ForumFilteringState extends State<ForumFiltering> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               for (var uni in unis.sublist(
-                                  0, unis.length < 5 ? unis.length : 6))
+                                  0, unis.length <= 5 ? unis.length : 6))
                                 GestureDetector(
                                   onTap: () {
                                     if (!context
@@ -88,6 +87,7 @@ class _ForumFilteringState extends State<ForumFiltering> {
                                             .addTag(uni + " Uni.");
                                         allUnis.remove(uni);
                                         unis.remove(uni);
+                                        this.query = '';
                                       });
                                       controller.clear();
                                     }
@@ -201,7 +201,13 @@ class _ForumFilteringState extends State<ForumFiltering> {
                     const SizedBox(width: 20),
                     Expanded(
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              unis = allUnis;
+                              tags = allTags;
+                              context.read<TagProvider>().reset();
+                            });
+                          },
                           child: Text("Reset", style: TextStyle()),
                           style: ButtonStyle(
                             elevation: MaterialStateProperty.all(0),
@@ -211,9 +217,6 @@ class _ForumFilteringState extends State<ForumFiltering> {
                                 MaterialStateProperty.all(Color(0xff082D26)),
                             side: MaterialStateProperty.all(
                                 BorderSide(color: Color(0xff122F2D))),
-                            // padding: MaterialStateProperty.all(
-                            //   EdgeInsets.symmetric(horizontal: 50),
-                            // ),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0),

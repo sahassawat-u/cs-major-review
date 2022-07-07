@@ -17,6 +17,10 @@ class TagProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void reset() {
+    _tags = [];
+  }
+
   bool contains(String tag) {
     return _tags.contains(tag);
   }
