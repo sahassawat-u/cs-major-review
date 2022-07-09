@@ -6,7 +6,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[0],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -26,7 +26,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[1],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -46,7 +46,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[2],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -66,7 +66,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[3],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -86,7 +86,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[4],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -106,7 +106,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[5],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -126,7 +126,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[6],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -146,7 +146,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[7],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -166,7 +166,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[8],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -186,7 +186,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[9],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -206,7 +206,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[10],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -226,7 +226,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[11],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -246,7 +246,7 @@ final allUniReviews = <University>[
   University(
       uni: allUnis[12],
       rating: 5,
-      topComment: 'top comment...',
+      topComment: 'Top voted comment',
       comments: <Comment>[
         Comment(
             rating: 4,
@@ -265,8 +265,8 @@ final allUniReviews = <University>[
       ]),
   University(
       uni: allUnis[13],
+      topComment: 'Top voted comment',
       rating: 5,
-      topComment: 'top comment...',
       comments: <Comment>[
         Comment(
             rating: 4,

@@ -20,7 +20,7 @@ final allForums = <Forum>[
         "ALGO"
       ]),
   Forum(
-      topic: "Let's talk about Discrete Math",
+      topic: "I love Discrete Math",
       user: "Jeno",
       createdBy: "Fri Jul 2 2022",
       comment: "This class is way too fun!",

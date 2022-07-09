@@ -4,7 +4,6 @@ import 'package:cs_major_review/models/uni_model.dart';
 import 'package:cs_major_review/widgets/search.dart';
 // import 'package:cs_major_review/university_list.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../widgets/base_card.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -25,6 +24,7 @@ class _UniversityPageState extends State<UniversityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
@@ -93,7 +93,7 @@ class _UniversityPageState extends State<UniversityPage> {
           ),
           ReviewList(
             unis: unis,
-          ),
+          )
         ],
       ),
     );
@@ -110,7 +110,4 @@ class _UniversityPageState extends State<UniversityPage> {
       this.unis = newUnis;
     });
   }
-  // void searchUni(String query) {
-  //   final newUnis = j
-  // }
 }

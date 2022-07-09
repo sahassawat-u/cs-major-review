@@ -13,6 +13,7 @@ class CommentList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // height: 10,
+      margin: EdgeInsets.symmetric(vertical: 10),
       // height:  MediaQuery.of(context).size.height,
       child: ListView(
           shrinkWrap: true,
@@ -20,65 +21,12 @@ class CommentList extends StatelessWidget {
           children: List.generate(
               comments.length,
               (index) => CommentCard(
+                  like: comments[index].like,
                   rating: comments[index].rating,
                   title: comments[index].title,
                   comment: comments[index].comment,
                   date: comments[index].createdDate,
-                  reviewed_name: comments[index].user))
-          // [
-          //   CommentCard(
-          //       rating: 2,
-          //       title: "title",
-          //       comment: "Lorem ipsum dolor sit amet, "
-          //           "consectetur adipiscing elit, sed do"
-          //           " eiusmod tempor incididunt ut labore "
-          //           "et dolore magna aliqua. Ut enim ad minim "
-          //           "veniam, quis nostrud exercitation ullamco"
-          //           " laboris nisi ut aliquip ex ea commodo "
-          //           "consequat. Duis aute irure dolor in "
-          //           "reprehenderit in voluptate velit esse "
-          //           "cillum dolore eu fugiat nulla pariatur. "
-          //           "Excepteur sint occaecat cupidatat non proident, "
-          //           "sunt in culpa qui officia deserunt mollit anim "
-          //           "id est laborum.",
-          //       date: "date",
-          //       reviewed_name: "YU"),
-          //   CommentCard(
-          //       rating: 5,
-          //       title: "title",
-          //       comment: "Lorem ipsum dolor sit amet, "
-          //           "consectetur adipiscing elit, sed do"
-          //           " eiusmod tempor incididunt ut labore "
-          //           "et dolore magna aliqua. Ut enim ad minim "
-          //           "veniam, quis nostrud exercitation ullamco"
-          //           " laboris nisi ut aliquip ex ea commodo "
-          //           "consequat. Duis aute irure dolor in "
-          //           "reprehenderit in voluptate velit esse "
-          //           "cillum dolore eu fugiat nulla pariatur. "
-          //           "Excepteur sint occaecat cupidatat non proident, "
-          //           "sunt in culpa qui officia deserunt mollit anim "
-          //           "id est laborum.",
-          //       date: "date",
-          //       reviewed_name: "YU"),
-          //   CommentCard(
-          //       rating: 5,
-          //       title: "title",
-          //       comment: "Lorem ipsum dolor sit amet, "
-          //           "consectetur adipiscing elit, sed do"
-          //           " eiusmod tempor incididunt ut labore "
-          //           "et dolore magna aliqua. Ut enim ad minim "
-          //           "veniam, quis nostrud exercitation ullamco"
-          //           " laboris nisi ut aliquip ex ea commodo "
-          //           "consequat. Duis aute irure dolor in "
-          //           "reprehenderit in voluptate velit esse "
-          //           "cillum dolore eu fugiat nulla pariatur. "
-          //           "Excepteur sint occaecat cupidatat non proident, "
-          //           "sunt in culpa qui officia deserunt mollit anim "
-          //           "id est laborum.",
-          //       date: "date",
-          //       reviewed_name: "YU")
-          // ],
-          ),
+                  reviewed_name: comments[index].user))),
     );
   }
 }

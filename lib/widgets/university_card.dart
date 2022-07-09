@@ -40,7 +40,10 @@ class UniversityCard extends StatelessWidget {
                 height: 15,
               ),
               Container(
-                child: Text(uni.uni),
+                child: Text(
+                  uni.uni,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(
                 height: 15,
@@ -56,7 +59,10 @@ class UniversityCard extends StatelessWidget {
               // ),
               // SizedBox(height: 15,),
               Container(
-                child: Text(uni.topComment),
+                child: Text(
+                  uni.topComment,
+                  style: TextStyle(color: Color(0xff858E83)),
+                ),
               ),
             ],
           ),

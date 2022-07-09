@@ -16,6 +16,8 @@ class ReviewList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      // margin: EdgeInsets.only(bottom:),
       height: 400,
       child: ListView(
         shrinkWrap: true,

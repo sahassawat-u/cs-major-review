@@ -42,6 +42,7 @@ class _RatingPageState extends State<RatingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
@@ -52,44 +53,47 @@ class _RatingPageState extends State<RatingPage> {
         child: const Icon(Icons.add_comment),
       ),
       // resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_outlined),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              Text("Back")
-            ],
-          ),
-          Container(
-            child: Text(
-              widget.uni.uni + " Univeristy",
-              style: TextStyle(fontSize: 20),
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
             ),
-          ),
-          Container(
-            child: RatingBarIndicator(
-              rating: widget.uni.rating,
-              itemCount: 5,
-              itemSize: 25.0,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: kStar,
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back_outlined),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Text("Back")
+              ],
+            ),
+            Container(
+              child: Text(
+                widget.uni.uni + " Univeristy",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
               ),
             ),
-          ),
-          Flexible(
-            child: CommentList(comments: getMostRecentComments()),
-          ),
-        ],
+            Container(
+              child: RatingBarIndicator(
+                rating: widget.uni.rating,
+                itemCount: 5,
+                itemSize: 25.0,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: kStar,
+                ),
+              ),
+            ),
+            Flexible(
+              child: CommentList(comments: getMostRecentComments()),
+            ),
+          ],
+        ),
       ),
     );
   }

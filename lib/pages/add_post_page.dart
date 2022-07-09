@@ -63,35 +63,41 @@ class _AddPostPageState extends State<AddPostPage> {
                 ],
               ),
             )),
-            Row(
-              children: [
-                Text(
-                  "University",
-                  textAlign: TextAlign.start,
-                  // style: TextStyle(
-                  //   fontSize: 18,
-                  //   fontWeight: FontWeight.w600,
-                  // ),
-                ),
-              ],
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                children: [
+                  Text(
+                    "University",
+                    textAlign: TextAlign.start,
+                    // style: TextStyle(
+                    //   fontSize: 18,
+                    //   fontWeight: FontWeight.w600,
+                    // ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 15),
-            Search(
-              controller: controller,
-              isUsedIcon: true,
-              text: "",
-              onChanged: searchUni,
-              hintText: "Search for university",
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Search(
+                controller: controller,
+                isUsedIcon: true,
+                text: "",
+                onChanged: searchUni,
+                hintText: "Search for university",
+              ),
             ),
             query.isNotEmpty
                 ? unis.isNotEmpty
                     ? Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             for (var uni in unis.sublist(
-                                0, unis.length <= 5 ? unis.length : 6))
+                                0, unis.length <= 4 ? unis.length : 5))
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -113,16 +119,21 @@ class _AddPostPageState extends State<AddPostPage> {
             Text(
               '$uni',
               textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
             ),
-            Row(children: [
-              Text(
-                "Course",
-                textAlign: TextAlign.center,
-                style: TextStyle(),
-              ),
-            ]),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(children: [
+                Text(
+                  "Course",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(),
+                ),
+              ]),
+            ),
             const SizedBox(height: 15),
             Container(
+              margin: EdgeInsets.symmetric(horizontal: 17),
               width: double.infinity,
               // height: 320,
               child: Wrap(
