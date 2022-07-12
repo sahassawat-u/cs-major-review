@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/models/comment_model.dart';
 import 'package:cs_major_review/models/uni_model.dart';
 import 'package:cs_major_review/pages/add_comment_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../constaints.dart';
@@ -17,6 +19,7 @@ class RatingPage extends StatefulWidget {
 
 class _RatingPageState extends State<RatingPage> {
   double? _ratingValue;
+
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => AddCommentPage(

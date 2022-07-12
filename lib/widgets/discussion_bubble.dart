@@ -2,7 +2,7 @@ import 'package:cs_major_review/models/discussion_model.dart';
 import 'package:flutter/material.dart';
 
 class DiscussBubble extends StatelessWidget {
-  final Discussion discussion;
+  final Map<String, dynamic> discussion;
   const DiscussBubble({Key? key, required this.discussion}) : super(key: key);
 
   @override
@@ -14,7 +14,7 @@ class DiscussBubble extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(discussion.user,
+                Text(discussion['user'],
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.start),
               ],
@@ -23,7 +23,7 @@ class DiscussBubble extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text(discussion.comment),
+                  child: Text(discussion['comment']),
                 )
               ],
             )

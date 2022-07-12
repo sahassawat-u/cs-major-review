@@ -11,13 +11,13 @@ void main() {
       ChangeNotifierProvider(create: (_) => TagProvider()),
     ],
     child: MyApp(
-      firstPage: true,
+      firstPage: false,
     ),
   ));
 }
 
 class MyApp extends StatefulWidget {
-  bool firstPage = true;
+  bool firstPage = false;
   MyApp({Key? key, required this.firstPage}) : super(key: key);
   @override
   State<MyApp> createState() => _MyAppState();

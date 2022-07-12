@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/data/tags_data.dart';
 import 'package:cs_major_review/data/uni_data.dart';
@@ -6,9 +7,12 @@ import 'package:cs_major_review/providers/tags_provider.dart';
 import 'package:cs_major_review/widgets/clickable_tag.dart';
 import 'package:cs_major_review/widgets/search.dart';
 import 'package:cs_major_review/widgets/search_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/base_card.dart';
+import 'package:intl/intl.dart';
 
 class AddPostPage extends StatefulWidget {
   final List<Forum> forums;
@@ -21,12 +25,27 @@ class AddPostPage extends StatefulWidget {
 class _AddPostPageState extends State<AddPostPage> {
   late String title;
   late String comment;
+
   String query = "";
   String uni = '';
   List<String> unis = allUnis;
   TextEditingController controller = TextEditingController();
   List<String> tags = allTags;
   List<bool> flagList = List.filled(allTags.length, false);
+
+  late FirebaseFirestore _firestore;
+  @override
+  void initState() {
+    super.initState();
+    initFirebase();
+  }
+
+  void initFirebase() async {
+    await Firebase.initializeApp();
+    _firestore = FirebaseFirestore.instance;
+    // _firestore.collection('sdf').where(field).
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,22 +208,43 @@ class _AddPostPageState extends State<AddPostPage> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final newTags = tags
                         .where((element) => flagList[tags.indexOf(element)])
                         .toList();
                     if (uni.isNotEmpty) {
                       newTags.add(uni + " Uni.");
                     }
-                    widget.forums.add(Forum(
-                        topic: title,
-                        user: "Tester",
-                        createdBy: "Fri Jul 8 2022",
-                        comment: comment,
-                        num: 0,
-                        discussions: [],
-                        tags: newTags));
-                    print("submitted $title, $comment, $newTags, $uni ");
+                    // widget.forums.add(Forum(
+                    //     topic: title,
+                    //     user: "Tester",
+                    //     createdBy: "Fri Jul 8 2022",
+                    //     comment: comment,
+                    //     num: 0,
+                    //     discussions: [],
+                    //     tags: newTags));
+                    // print();
+                    Map<String, dynamic> data = {
+                      'topic': title,
+                      'user': 'Tester',
+                      'createdAt':
+                          DateFormat("EEE MMM dd yyyy").format(DateTime.now()),
+                      'comment': comment,
+                      'discussions': [],
+                      'tags': newTags
+                    };
+                    _firestore.collection('forums').add(data);
+                    // final test = await _firestore
+                    //     .collection('forums')
+                    //     .where('user', isEqualTo: 'Minnie')
+                    //     .where('topic', isEqualTo: '1t topic')
+                    //     .get();
+                    // // print(test.docs[0].id)
+                    // if (test.docs.isNotEmpty) {
+                    //   print(test.docs[0].id);
+                    // }
+                    // _firestore.collection('forums').doc("Tester").set();
+                    // print("submitted $title, $comment, $newTags, $uni ");
                     Navigator.of(context).pop();
                   },
                   child: Text("Submit Your forum"),

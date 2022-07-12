@@ -6,8 +6,8 @@ class Forum {
   final String createdBy;
   final String comment;
   final int num;
-  final List<String> tags;
-  final List<Discussion> discussions;
+  final List<dynamic> tags;
+  final List<dynamic> discussions;
 
   Forum({
     required this.topic,

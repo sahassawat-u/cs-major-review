@@ -30,10 +30,12 @@ class _ForumFilteringState extends State<ForumFiltering> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+          height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.only(left: 30, right: 30),
-          child: Column(
+          child: ListView(
+            shrinkWrap: true,
             children: [
-              SizedBox(height: 50),
+              // SizedBox(height: 50),
               Row(
                 children: [
                   Container(
