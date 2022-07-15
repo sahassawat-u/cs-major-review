@@ -2,12 +2,8 @@ import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/data/unis_data.dart';
 import 'package:cs_major_review/models/uni_model.dart';
 import 'package:cs_major_review/widgets/search.dart';
-// import 'package:cs_major_review/university_list.dart';
 import 'package:flutter/material.dart';
 import '../widgets/base_card.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
-import '../widgets/search_card.dart';
 import '../widgets/university_list.dart';
 
 class UniversityPage extends StatefulWidget {
@@ -28,7 +24,7 @@ class _UniversityPageState extends State<UniversityPage> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: 300,
             child: Stack(
               children: <Widget>[
@@ -39,23 +35,12 @@ class _UniversityPageState extends State<UniversityPage> {
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: 250,
-                        // color: Colors.black,
                         color: kBackgroundColor1,
-                        child:
-                            //  Container(
-                            //   padding: EdgeInsets.all(65),
-                            //   child: Search(
-                            //     controller: controller,
-                            //     isUsedIcon: true,
-                            //     text: query,
-                            //     onChanged: searchUni,
-                            //     hintText: "Search for university",
-                            //   ),
-                            Container(
+                        child: Container(
                           padding:
                               EdgeInsets.only(left: 65, right: 65, top: 90),
-                          child: BaseCard(
-                            theChild: const Text(
+                          child: const BaseCard(
+                            theChild: Text(
                               "Search for your university",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: kFontColor, fontSize: 30),
@@ -71,7 +56,6 @@ class _UniversityPageState extends State<UniversityPage> {
                     ),
                   ],
                 ),
-
                 Positioned(
                   top: 215,
                   left: 50,
@@ -86,8 +70,6 @@ class _UniversityPageState extends State<UniversityPage> {
                     ),
                   ),
                 )
-                // Divider(color: kFontColor,),
-                // Container()
               ],
             ),
           ),

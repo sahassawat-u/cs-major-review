@@ -1,7 +1,7 @@
+import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/data/tags_data.dart';
 import 'package:cs_major_review/data/uni_data.dart';
 import 'package:cs_major_review/widgets/clickable_tag.dart';
-import 'package:cs_major_review/widgets/filtered_top.dart';
 import 'package:cs_major_review/widgets/search.dart';
 import 'package:cs_major_review/providers/tags_provider.dart';
 import 'package:provider/provider.dart';
@@ -16,14 +16,8 @@ class ForumFiltering extends StatefulWidget {
 
 class _ForumFilteringState extends State<ForumFiltering> {
   String query = "";
-  bool isSearch = false;
   List<String> unis = allUnis;
   List<String> tags = allTags;
-  // List<String> uniTags = [];
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
   TextEditingController controller = TextEditingController();
 
   @override
@@ -31,11 +25,10 @@ class _ForumFilteringState extends State<ForumFiltering> {
     return Scaffold(
       body: Container(
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.only(left: 30, right: 30),
+          padding: const EdgeInsets.only(left: 30, right: 30),
           child: ListView(
             shrinkWrap: true,
             children: [
-              // SizedBox(height: 50),
               Row(
                 children: [
                   Container(
@@ -105,7 +98,6 @@ class _ForumFilteringState extends State<ForumFiltering> {
               const SizedBox(height: 15),
               Container(
                 width: double.infinity,
-                // height: 320,
                 child: Wrap(
                     children: List.generate(
                         Provider.of<TagProvider>(context, listen: false)
@@ -143,23 +135,17 @@ class _ForumFilteringState extends State<ForumFiltering> {
               const SizedBox(height: 15),
               Container(
                 width: double.infinity,
-                // height: 320,
                 child: Wrap(
                     children: List.generate(tags.length, (index) {
-                  // print();
                   return ClickableTag(
                       text: tags[index],
-                      // isSelected: toBeUsedTags.contains(tags[index]),
                       isSelected:
                           context.read<TagProvider>().contains(tags[index]),
                       onTap_: () {
-                        // setState() {
                         if (!context
                             .read<TagProvider>()
                             .contains(tags[index])) {
                           setState(() {});
-                          // toBeUsedTags.add(tags[index]);
-                          // context.read<Tag
                           context.read<TagProvider>().addTag(tags[index]);
                         } else {
                           setState(() {});
@@ -177,54 +163,52 @@ class _ForumFilteringState extends State<ForumFiltering> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                          onPressed: () {
-                            // saveTags(this.toBeUsedTags);
-                            Navigator.pop(context);
-                          },
-                          child: Text("Apply", style: TextStyle()),
-                          style: ButtonStyle(
-                            elevation: MaterialStateProperty.all(0),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            foregroundColor:
-                                MaterialStateProperty.all(Color(0xff082D26)),
-                            side: MaterialStateProperty.all(
-                                BorderSide(color: Color(0xff122F2D))),
-                            // padding: MaterialStateProperty.all(
-                            //   EdgeInsets.symmetric(horizontal: 50),
-                            // ),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0),
-                              ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Apply", style: TextStyle()),
+                        style: ButtonStyle(
+                          elevation: MaterialStateProperty.all(0),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          foregroundColor:
+                              MaterialStateProperty.all(kForegroundColor1),
+                          side: MaterialStateProperty.all(
+                              const BorderSide(color: kForegroundColor2)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
                       child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              unis = allUnis;
-                              tags = allTags;
-                              context.read<TagProvider>().reset();
-                            });
-                          },
-                          child: Text("Reset", style: TextStyle()),
-                          style: ButtonStyle(
-                            elevation: MaterialStateProperty.all(0),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            foregroundColor:
-                                MaterialStateProperty.all(Color(0xff082D26)),
-                            side: MaterialStateProperty.all(
-                                BorderSide(color: Color(0xff122F2D))),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0),
-                              ),
+                        onPressed: () {
+                          setState(() {
+                            unis = allUnis;
+                            tags = allTags;
+                            context.read<TagProvider>().reset();
+                          });
+                        },
+                        child: Text("Reset", style: TextStyle()),
+                        style: ButtonStyle(
+                          elevation: MaterialStateProperty.all(0),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          foregroundColor:
+                              MaterialStateProperty.all(kForegroundColor1),
+                          side: MaterialStateProperty.all(
+                              const BorderSide(color: kForegroundColor2)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

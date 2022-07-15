@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/constaints.dart';
-import 'package:cs_major_review/data/forum_data.dart';
 import 'package:cs_major_review/models/forum_model.dart';
 import 'package:cs_major_review/pages/add_post_page.dart';
 import 'package:cs_major_review/pages/discussion_page.dart';
@@ -25,9 +23,7 @@ class ForumPage extends StatefulWidget {
 class _ForumPageState extends State<ForumPage> {
   Category? which;
   late FirebaseFirestore _firestore;
-  int id = 0;
-  // List<Forum> forums = allForums;
-  List<Forum> forums_ = [];
+  late List<Forum> _forums;
   @override
   void initState() {
     super.initState();
@@ -41,13 +37,12 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   void getForums({required bool withTag}) async {
-    final forums = await _firestore.collection('forums').get();
-    forums_ = [];
-    // print(forums.docs.length);
-    for (var forum in forums.docs) {
+    final dbForums = await _firestore.collection('forums').get();
+    _forums = [];
+    for (var forum in dbForums.docs) {
       if (forum.data().isNotEmpty) {
         setState(() {
-          forums_.add(Forum(
+          _forums.add(Forum(
               topic: forum.get('topic'),
               user: forum.get('user'),
               createdBy: forum.get('createdAt'),
@@ -66,7 +61,7 @@ class _ForumPageState extends State<ForumPage> {
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => AddPostPage(
-        forums: forums_,
+        forums: _forums,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
@@ -83,15 +78,8 @@ class _ForumPageState extends State<ForumPage> {
     );
   }
 
-  void refresh() {
-    id++;
-  }
-
   FutureOr goBackFilter(dynamic value) {
     getForums(withTag: true);
-    // setState(() {});
-    // print('yoyo');
-    // setState(() {});
   }
 
   FutureOr goBackPost(dynamic value) {
@@ -106,17 +94,17 @@ class _ForumPageState extends State<ForumPage> {
             Navigator.of(context).push(_createRoute()).then(goBackPost);
           },
           child: Container(
-              // height: 8,
-              height: 30,
-              width: 90,
-              decoration: BoxDecoration(
-                border: Border.all(color: kStar, width: 1),
-                color: Colors.white,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [Icon(Icons.edit, color: kStar), Text('Post')],
-              )),
+            height: 30,
+            width: 90,
+            decoration: BoxDecoration(
+              border: Border.all(color: kStar, width: 1),
+              color: Colors.white,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [Icon(Icons.edit, color: kStar), Text('Post')],
+            ),
+          ),
         ),
         body: Container(
           child: Column(children: [
@@ -124,7 +112,7 @@ class _ForumPageState extends State<ForumPage> {
               width: double.infinity,
               height: 220,
               padding: EdgeInsets.only(left: 40),
-              color: Color(0xffFCEBB8),
+              color: kForumStrip,
               child: Column(
                 children: [
                   const SizedBox(
@@ -137,7 +125,7 @@ class _ForumPageState extends State<ForumPage> {
                           padding: EdgeInsets.zero,
                           icon: Icon(
                             Icons.menu_outlined,
-                            color: Color(0xff0B2E27),
+                            color: kNavBarIcon,
                           ),
                           onPressed: () {
                             setState(() {
@@ -169,130 +157,79 @@ class _ForumPageState extends State<ForumPage> {
                   ),
                   SizedBox(height: 20),
                   Container(
-                      height: 60,
-                      // height: 100,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          ForumCategory(
-                            onPressed_: (() {
-                              setState(() {
-                                which = Category.TAG;
-                              });
-                              getTaggedForums();
-                            }),
-                            text: "Featured Tags",
-                            isSelected: which == Category.TAG,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          ForumCategory(
-                            onPressed_: (() async {
-                              setState(() {
-                                which = Category.RECENT;
-                              });
-                              // print(forums_.length);
-                              getMostRecentForums();
-                              // final forum = await _firestore
-                              //     .collection('forums')
-                              //     .doc('Yuqi')
-                              //     .get();
-                              // var discussions = forum.data()!['discussions'];
-                              // Map<String, dynamic> discussion = {
-                              //   'user': 'test',
-                              //   'comment': '3'
-                              // };
-                              // if (discussions == null) {
-                              //   Map<String, dynamic> discussions = {
-                              //     'discussions': [
-                              //       // {'user': 'test', 'comment': 'its mee'}
-                              //       discussion
-                              //     ]
-                              //   };
-
-                              //   _firestore
-                              //       .collection('forums')
-                              //       .doc('Yuqi')
-                              //       .set(discussions);
-                              // } else {
-                              //   discussions.add(discussion);
-                              //   Map<String, dynamic> to_db_discussions = {
-                              //     'discussions': discussions
-                              //   };
-                              //   print(discussions);
-                              //   _firestore.collection('forums').doc('Yuqi').set(
-                              //       to_db_discussions, SetOptions(merge: true));
-                              // }
-                              // final discussions = forum;
-                              // Map<String, dynamic> discussion = {
-                              //   'discussion': [
-                              //     {'user': 'test', 'comment': 'its mee'}
-                              //   ]
-                              // };
-                              // _firestore
-                              //     .collection('forums')
-                              //     .doc('Yuqi')
-                              //     // .collection('discussion')
-                              //     // .doc()
-                              //     .set(discussion, SetOptions(merge: true));
-                              // _firestore
-                              //     .collection('forums')
-                              //     .doc('Minnie')
-                              //     .set(discussion)
-                              //     .onError((error, stackTrace) =>
-                              //         print('Error with doc: $error'));
-                            }),
-                            text: "Most Recent",
-                            isSelected: which == Category.RECENT,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          ForumCategory(
-                            onPressed_: (() {
-                              setState(() {
-                                which = Category.DISCUSS;
-                              });
-                              getMostDiscussedForums();
-                            }),
-                            text: "Most Discussed",
-                            isSelected: which == Category.DISCUSS,
-                          ),
-                        ],
-                      ))
+                    height: 60,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        ForumCategory(
+                          onPressed_: (() {
+                            setState(() {
+                              which = Category.TAG;
+                            });
+                            getTaggedForums();
+                          }),
+                          text: "Featured Tags",
+                          isSelected: which == Category.TAG,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        ForumCategory(
+                          onPressed_: (() async {
+                            setState(() {
+                              which = Category.RECENT;
+                            });
+                            getMostRecentForums();
+                          }),
+                          text: "Most Recent",
+                          isSelected: which == Category.RECENT,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        ForumCategory(
+                          onPressed_: (() {
+                            setState(() {
+                              which = Category.DISCUSS;
+                            });
+                            getMostDiscussedForums();
+                          }),
+                          text: "Most Discussed",
+                          isSelected: which == Category.DISCUSS,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-            Divider(
-              color: Color(0xff102D24),
+            const Divider(
+              color: kDivider,
               thickness: 2,
               height: 0,
             ),
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: const EdgeInsets.only(top: 30),
               height: 440,
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
-                    children: List.generate(forums_.length, (index) {
-                  // print(forums_.length);
+                    children: List.generate(_forums.length, (index) {
                   return ForumBubble(
                     onTap_: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => DiscussonPage(
-                            forum: forums_[index],
-                            discussions: forums_[index].discussions,
+                            forum: _forums[index],
+                            discussions: _forums[index].discussions,
                           ),
                         ),
                       ).then((value) => setState(() {
-                            // getDiscussions();
                             goBackPost(value);
                           }));
                     },
-                    forum: forums_[index],
+                    forum: _forums[index],
                   );
                 })),
               ),
@@ -305,30 +242,18 @@ class _ForumPageState extends State<ForumPage> {
     final taggedList =
         Provider.of<TagProvider>(context, listen: false).tags.toSet();
     if (taggedList.isNotEmpty) {
-      final tempList = forums_
+      final tempList = _forums
           .where((element) =>
               element.tags.toSet().intersection(taggedList).isNotEmpty)
           .toList();
       setState(() {
-        this.forums_ = tempList;
+        this._forums = tempList;
       });
     }
-    // else {
-    //   setState(() {
-    //     this.forums_ = forums_;
-    //   });
-    // }
-    // allForums
-    //     .where((ele) => ele.tags.contains(
-    //           ,
-    //         ))
-    //     .toList();
-    // print(allForums.length);
-    // print(allForums[0].tags);
   }
 
   void getMostRecentForums() {
-    forums_.sort(
+    _forums.sort(
       (a, b) {
         final dateA = a.createdBy.split(' ');
         final monthA = dateA[1];
@@ -342,7 +267,7 @@ class _ForumPageState extends State<ForumPage> {
       },
     );
     setState() {
-      this.forums_ = forums_;
+      this._forums = _forums;
     }
   }
 
@@ -391,11 +316,11 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   void getMostDiscussedForums() {
-    forums_.sort(
+    _forums.sort(
       (a, b) => b.discussions.length.compareTo(a.discussions.length),
     );
     setState() {
-      this.forums_ = forums_;
+      this._forums = _forums;
     }
   }
 }

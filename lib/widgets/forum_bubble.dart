@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/models/forum_model.dart';
-import 'package:cs_major_review/pages/discussion_page.dart';
 import 'package:cs_major_review/widgets/tag.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ForumBubble extends StatefulWidget {
@@ -16,50 +14,17 @@ class ForumBubble extends StatefulWidget {
 }
 
 class _ForumBubbleState extends State<ForumBubble> {
-  // late List<dynamic> discussions;
-  // late FirebaseFirestore _firestore;
   @override
   void initState() {
     super.initState();
-    // initFirebase();
-    // discussions = widget.forum.discussions;
   }
 
-  // void initFirebase() async {
-  //   await Firebase.initializeApp();
-  //   _firestore = FirebaseFirestore.instance;
-  //   // getDiscussions();
-  // }
-
-  // void getDiscussions() async {
-  //   final data = await _firestore
-  //       .collection('forums')
-  //       .where('user', isEqualTo: widget.forum.user)
-  //       .where('topic', isEqualTo: widget.forum.topic)
-  //       .get();
-  //   // print(test.docs[0].id)
-  //   // if (test.docs.isNotEmpty) {
-  //   print(data.docs[0].id);
-  //   // }
-  //   final discussions =
-  //       await _firestore.collection('forums').doc(data.docs[0].id).get();
-  //   // print(discussions.data());
-  //   setState(() {
-  //     this.discussions = discussions.data()!['discussions'];
-  //   });
-  // }
-
-  // void initFirebaseAndFetchForums() async {
-  //   await fire.initializeApp();
-  //   _firestore = FirebaseFirestore.instance;
-  //   getForums();
-  // }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: widget.onTap_,
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 15),
+          margin: const EdgeInsets.symmetric(vertical: 15),
           width: 300,
           color: Colors.transparent,
           child: Column(children: [
@@ -82,7 +47,8 @@ class _ForumBubbleState extends State<ForumBubble> {
             ),
             Row(
               children: [
-                Text("created By ", style: TextStyle(color: Color(0xffB2B9B9))),
+                const Text("created By ",
+                    style: TextStyle(color: kGreySubText)),
                 Text(widget.forum.user)
               ],
             ),
@@ -95,7 +61,7 @@ class _ForumBubbleState extends State<ForumBubble> {
                     : "No discussion "),
                 Text(widget.forum.createdBy,
                     style: TextStyle(
-                      color: Color(0xffB2B9B9),
+                      color: kGreySubText,
                     ))
               ],
             ),

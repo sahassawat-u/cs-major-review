@@ -1,3 +1,4 @@
+import 'package:cs_major_review/constaints.dart';
 import 'package:flutter/material.dart';
 
 class ForumCategory extends StatelessWidget {
@@ -21,11 +22,10 @@ class ForumCategory extends StatelessWidget {
             style: ButtonStyle(
               elevation: MaterialStateProperty.all(0),
               backgroundColor: MaterialStateProperty.all(
-                  isSelected ? Color(0xff082D26) : Colors.white),
+                  isSelected ? kNavBarIcon : Colors.white),
               foregroundColor: MaterialStateProperty.all(
-                  isSelected ? Colors.white : Color(0xff082D26)),
-              side: MaterialStateProperty.all(
-                  BorderSide(color: Color(0xff122F2D))),
+                  isSelected ? Colors.white : kNavBarIcon),
+              side: MaterialStateProperty.all(BorderSide(color: kBorderButton)),
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
@@ -37,7 +37,7 @@ class ForumCategory extends StatelessWidget {
             width: 7,
             height: 7,
             decoration: BoxDecoration(
-                color: isSelected ? Color(0xff082D26) : Color(0xffFCEBB8),
+                color: isSelected ? kNavBarIcon : kForumStrip,
                 shape: BoxShape.circle)),
       ],
     );

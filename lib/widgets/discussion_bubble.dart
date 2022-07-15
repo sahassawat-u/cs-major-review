@@ -1,4 +1,3 @@
-import 'package:cs_major_review/models/discussion_model.dart';
 import 'package:flutter/material.dart';
 
 class DiscussBubble extends StatelessWidget {

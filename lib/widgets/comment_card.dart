@@ -1,3 +1,5 @@
+import 'package:cs_major_review/providers/geolocator_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -94,7 +96,6 @@ class _CommentCardState extends State<CommentCard> {
                 height: 10,
               ),
               Container(
-                // margin: EdgeInsets.all(20),
                 padding: EdgeInsets.all(2),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
@@ -107,6 +108,8 @@ class _CommentCardState extends State<CommentCard> {
                       _color = Colors.pinkAccent;
                       widget.like += 1;
                     });
+                    // print(context.read<GeolocatorProvider>().getLat());
+                    // print(context.read<GeolocatorProvider>().getLong());
                     // print("Liked");
                   },
                 ),

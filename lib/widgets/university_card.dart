@@ -48,20 +48,10 @@ class UniversityCard extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              // Container(
-              //   child: Row(
-              //     children: [
-              //       Text("reviewed by Yu"),
-              //       SizedBox(width: 200,),
-              //       Text("Date")
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(height: 15,),
               Container(
                 child: Text(
                   uni.topComment,
-                  style: TextStyle(color: Color(0xff858E83)),
+                  style: const TextStyle(color: kGreySubText),
                 ),
               ),
             ],

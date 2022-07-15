@@ -1,23 +1,16 @@
 import 'package:cs_major_review/data/unis_data.dart';
 import 'package:cs_major_review/models/uni_model.dart';
-import 'package:cs_major_review/pages/rating_page.dart';
-import 'package:cs_major_review/widgets/base_card.dart';
 import 'package:cs_major_review/widgets/university_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
-import '../constaints.dart';
 
 class ReviewList extends StatelessWidget {
   final List<University> unis;
-  ReviewList({Key? key, required this.unis}) : super(key: key);
+  const ReviewList({Key? key, required this.unis}) : super(key: key);
 
-  // final unis = allUniReviews;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      // margin: EdgeInsets.only(bottom:),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       height: 400,
       child: ListView(
         shrinkWrap: true,

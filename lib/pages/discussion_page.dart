@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cs_major_review/models/discussion_model.dart';
+import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/models/forum_model.dart';
 import 'package:cs_major_review/widgets/clickable_tag.dart';
 import 'package:cs_major_review/widgets/discussion_bubble.dart';
 import 'package:cs_major_review/widgets/search.dart';
-import 'package:cs_major_review/widgets/tag.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +49,6 @@ class _DiscussonPageState extends State<DiscussonPage> {
     });
   }
 
-  // void getDiscussions() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +61,6 @@ class _DiscussonPageState extends State<DiscussonPage> {
         ),
         child: ListView(
           shrinkWrap: true,
-          // Column(
           children: [
             Row(
               children: [
@@ -87,8 +84,8 @@ class _DiscussonPageState extends State<DiscussonPage> {
               ),
               Row(
                 children: [
-                  Text("created By ",
-                      style: TextStyle(color: Color(0xffB2B9B9))),
+                  const Text("created By ",
+                      style: TextStyle(color: kGreySubText)),
                   Text(widget.forum.user)
                 ],
               ),
@@ -100,7 +97,7 @@ class _DiscussonPageState extends State<DiscussonPage> {
                       : "No discussion"),
                   Text(widget.forum.createdBy,
                       style: TextStyle(
-                        color: Color(0xffB2B9B9),
+                        color: kGreySubText,
                       ))
                 ],
               ),
@@ -159,56 +156,28 @@ class _DiscussonPageState extends State<DiscussonPage> {
                   width: 8,
                 ),
                 TextButton(
-                  child: Text(
+                  child: const Text(
                     "Submit",
-                    style: TextStyle(color: Color(0xff082D26)),
+                    style: TextStyle(color: kNavBarIcon),
                   ),
                   onPressed: () async {
                     controller.clear();
-
-                    // setState(() {
-                    //   widget.forum.discussions.add(
-                    //       Discussion(user: "Test User", comment: this.comment));
-                    //   // isCommitComment = true;
-                    // });
                     final data = await _firestore
                         .collection('forums')
                         .where('user', isEqualTo: widget.forum.user)
                         .where('topic', isEqualTo: widget.forum.topic)
                         .get();
-                    // print(test.docs[0].id)
-                    // if (test.docs.isNotEmpty) {
-                    print(data.docs[0].id);
-                    // }
+                    // print(data.docs[0].id);
                     final discussions = await _firestore
                         .collection('forums')
                         .doc(data.docs[0].id)
                         .get();
-                    // print(discussions.data());
                     var to_process_discussions =
                         discussions.data()!['discussions'];
-                    // final forum = await _firestore
-                    //     .collection('forums')
-                    //     .doc('Yuqi')
-                    //     .get();
-                    // var discussions = forum.data()!['discussions'];
                     Map<String, dynamic> discussion = {
                       'user': widget.forum.user,
                       'comment': comment
                     };
-                    // if (discussions == null) {
-                    // Map<String, dynamic> discussions = {
-                    //   'discussions': [
-                    //     // {'user': 'test', 'comment': 'its mee'}
-                    //     discussion
-                    //   ]
-                    // };
-
-                    //   _firestore
-                    //       .collection('forums')
-                    //       .doc('Yuqi')
-                    //       .set(discussions);
-                    // } else {
                     to_process_discussions.add(discussion);
                     setState(() {
                       this.discussions = to_process_discussions;
@@ -216,12 +185,10 @@ class _DiscussonPageState extends State<DiscussonPage> {
                     Map<String, dynamic> to_use_discussions = {
                       'discussions': to_process_discussions
                     };
-                    //   print(discussions);
                     _firestore
                         .collection('forums')
                         .doc(data.docs[0].id)
                         .set(to_use_discussions, SetOptions(merge: true));
-                    // }
                   },
                 ),
               ],
@@ -230,97 +197,6 @@ class _DiscussonPageState extends State<DiscussonPage> {
           // ),
         ),
       ),
-      // bottomNavigationBar: Container(
-      //   width: double.infinity,
-      //   margin: EdgeInsets.fromLTRB(30, 0, 30, 50),
-      //   // color: Colors.red,
-      //   child: Row(
-      //     children: [
-      //       Expanded(
-      //         child: Search(
-      //             controller: controller,
-      //             isUsedIcon: false,
-      //             text: this.comment,
-      //             onChanged: (String comment) {
-      //               // print(isCommitComment);
-      //               // print(comment);
-      //               setState(() {
-      //                 this.comment = comment;
-      //               });
-      //             },
-      //             hintText: "Share what your think..."),
-      //       ),
-      //       SizedBox(
-      //         width: 8,
-      //       ),
-      //       TextButton(
-      //         child: Text(
-      //           "Submit",
-      //           style: TextStyle(color: Color(0xff082D26)),
-      //         ),
-      //         onPressed: () async {
-      //           controller.clear();
-
-      //           // setState(() {
-      //           //   widget.forum.discussions.add(
-      //           //       Discussion(user: "Test User", comment: this.comment));
-      //           //   // isCommitComment = true;
-      //           // });
-      //           final data = await _firestore
-      //               .collection('forums')
-      //               .where('user', isEqualTo: widget.forum.user)
-      //               .where('topic', isEqualTo: widget.forum.topic)
-      //               .get();
-      //           // print(test.docs[0].id)
-      //           // if (test.docs.isNotEmpty) {
-      //           print(data.docs[0].id);
-      //           // }
-      //           final discussions = await _firestore
-      //               .collection('forums')
-      //               .doc(data.docs[0].id)
-      //               .get();
-      //           // print(discussions.data());
-      //           var to_process_discussions = discussions.data()!['discussions'];
-      //           // final forum = await _firestore
-      //           //     .collection('forums')
-      //           //     .doc('Yuqi')
-      //           //     .get();
-      //           // var discussions = forum.data()!['discussions'];
-      //           Map<String, dynamic> discussion = {
-      //             'user': widget.forum.user,
-      //             'comment': comment
-      //           };
-      //           // if (discussions == null) {
-      //           // Map<String, dynamic> discussions = {
-      //           //   'discussions': [
-      //           //     // {'user': 'test', 'comment': 'its mee'}
-      //           //     discussion
-      //           //   ]
-      //           // };
-
-      //           //   _firestore
-      //           //       .collection('forums')
-      //           //       .doc('Yuqi')
-      //           //       .set(discussions);
-      //           // } else {
-      //           to_process_discussions.add(discussion);
-      //           setState(() {
-      //             this.discussions = to_process_discussions;
-      //           });
-      //           Map<String, dynamic> to_use_discussions = {
-      //             'discussions': to_process_discussions
-      //           };
-      //           //   print(discussions);
-      //           _firestore
-      //               .collection('forums')
-      //               .doc(data.docs[0].id)
-      //               .set(to_use_discussions, SetOptions(merge: true));
-      //           // }
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }
