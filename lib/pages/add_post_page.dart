@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../widgets/base_card.dart';
 import 'package:intl/intl.dart';
 
@@ -224,6 +225,7 @@ class _AddPostPageState extends State<AddPostPage> {
                     //     discussions: [],
                     //     tags: newTags));
                     // print();
+                    String generatedId = const Uuid().v4();
                     Map<String, dynamic> data = {
                       'topic': title,
                       'user': 'Tester',
@@ -231,9 +233,13 @@ class _AddPostPageState extends State<AddPostPage> {
                           DateFormat("EEE MMM dd yyyy").format(DateTime.now()),
                       'comment': comment,
                       'discussions': [],
-                      'tags': newTags
+                      'tags': newTags,
+                      'likes': 0,
+                      'id': generatedId,
                     };
-                    _firestore.collection('forums').add(data);
+                    // _firestore.collection('forums').add('sadf')
+                    _firestore.collection('forums').doc(generatedId).set(data);
+                    // _firestore.collection('forums').add(data);
                     // final test = await _firestore
                     //     .collection('forums')
                     //     .where('user', isEqualTo: 'Minnie')

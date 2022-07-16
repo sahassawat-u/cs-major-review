@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 class ForumBubble extends StatefulWidget {
   final Forum forum;
   final VoidCallback onTap_;
-  const ForumBubble({Key? key, required this.forum, required this.onTap_})
+  final bool showTag;
+  const ForumBubble(
+      {Key? key,
+      required this.forum,
+      required this.onTap_,
+      required this.showTag})
       : super(key: key);
 
   @override
@@ -28,15 +33,18 @@ class _ForumBubbleState extends State<ForumBubble> {
           width: 300,
           color: Colors.transparent,
           child: Column(children: [
-            Container(
-              width: double.infinity,
-              child: Wrap(
-                  children: List.generate(widget.forum.tags.length, (index) {
-                return Tag(
-                  text: widget.forum.tags[index],
-                );
-              })),
-            ),
+            widget.showTag
+                ? Container(
+                    width: double.infinity,
+                    child: Wrap(
+                        children:
+                            List.generate(widget.forum.tags.length, (index) {
+                      return Tag(
+                        text: widget.forum.tags[index],
+                      );
+                    })),
+                  )
+                : SizedBox(),
             Row(
               children: [
                 Text(

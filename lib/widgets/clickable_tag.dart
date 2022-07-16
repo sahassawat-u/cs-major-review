@@ -28,12 +28,13 @@ class ClickableTag extends StatelessWidget {
         height: 25,
         constraints: BoxConstraints(minWidth: 70),
         decoration: BoxDecoration(
-            border: Border.all(color: kForumStrip),
-            color: isSelected ? kForumStrip : Colors.white),
+            border: Border.all(color: kBorderButton),
+            color: isSelected ? kBorderButton : Colors.white),
         child: Text(text,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 12, color: isSelected ? Colors.white : kForumStrip)),
+                fontSize: 12,
+                color: isSelected ? Colors.white : kBorderButton)),
       ),
     );
   }

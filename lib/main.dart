@@ -3,6 +3,7 @@ import 'package:cs_major_review/pages/university_page.dart';
 import 'package:cs_major_review/pages/welcome_page.dart';
 import 'package:cs_major_review/providers/geolocator_provider.dart';
 import 'package:cs_major_review/providers/tags_provider.dart';
+import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cs_major_review/pages/forum_page.dart';
 import 'package:provider/provider.dart';
@@ -13,9 +14,10 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => TagProvider()),
       ChangeNotifierProvider(create: (_) => GeolocatorProvider()),
+      ChangeNotifierProvider(create: (_) => UserProvider()),
     ],
     child: MyApp(
-      firstPage: false,
+      firstPage: true,
     ),
   ));
 }

@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/main.dart';
 import 'package:cs_major_review/pages/register_page.dart';
+import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -112,6 +114,17 @@ class _LoginPageState extends State<LoginPage> {
                       email: email, password: password);
                   if (user != null) {
                     print('$email is in.');
+                    final user = await _firestore
+                        .collection('users')
+                        .where('email', isEqualTo: email)
+                        .get();
+                    // user.docs[0].get('')
+                    context.read<UserProvider>().initUser(
+                        username: user.docs[0].get('username'),
+                        role: user.docs[0].get('role'),
+                        email: email,
+                        forumDislikes: user.docs[0].get('forum_dislikes'),
+                        forumLikes: user.docs[0].get('forum_likes'));
                     Navigator.push(
                         context,
                         MaterialPageRoute(

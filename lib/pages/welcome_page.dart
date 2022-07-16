@@ -14,10 +14,8 @@ class WelcomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // two images
             Image.asset(
               'images/dream2.jpeg',
-              // width: 200,
               height: 200,
             ),
             SizedBox(
@@ -26,8 +24,6 @@ class WelcomePage extends StatelessWidget {
             Image.asset(
               'images/dream1.jpeg',
               height: 200,
-              // width: 200,
-              // height: 200,
             ),
             const SizedBox(
               height: 25,

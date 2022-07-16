@@ -6,6 +6,7 @@ import 'package:cs_major_review/pages/add_post_page.dart';
 import 'package:cs_major_review/pages/discussion_page.dart';
 import 'package:cs_major_review/pages/forum_filtering.dart';
 import 'package:cs_major_review/providers/tags_provider.dart';
+import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:cs_major_review/widgets/forum_bubble.dart';
 import 'package:cs_major_review/widgets/forum_category.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,7 +24,8 @@ class ForumPage extends StatefulWidget {
 class _ForumPageState extends State<ForumPage> {
   Category? which;
   late FirebaseFirestore _firestore;
-  late List<Forum> _forums;
+
+  List<Forum> _forums = [];
   @override
   void initState() {
     super.initState();
@@ -47,9 +49,10 @@ class _ForumPageState extends State<ForumPage> {
               user: forum.get('user'),
               createdBy: forum.get('createdAt'),
               comment: forum.get('comment'),
-              num: 0,
+              likes: forum.get('likes'),
               discussions: forum.get('discussions'),
-              tags: forum.get('tags')));
+              tags: forum.get('tags'),
+              id: forum.get('id')));
         });
       }
       if (withTag) {
@@ -89,23 +92,26 @@ class _ForumPageState extends State<ForumPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(_createRoute()).then(goBackPost);
-          },
-          child: Container(
-            height: 30,
-            width: 90,
-            decoration: BoxDecoration(
-              border: Border.all(color: kStar, width: 1),
-              color: Colors.white,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [Icon(Icons.edit, color: kStar), Text('Post')],
-            ),
-          ),
-        ),
+        floatingActionButton: context.read<UserProvider>().getRole() ==
+                'College'
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(_createRoute()).then(goBackPost);
+                },
+                child: Container(
+                  height: 30,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: kStar, width: 1),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [Icon(Icons.edit, color: kStar), Text('Post')],
+                  ),
+                ),
+              )
+            : null,
         body: Container(
           child: Column(children: [
             Container(
@@ -216,13 +222,15 @@ class _ForumPageState extends State<ForumPage> {
                 child: Column(
                     children: List.generate(_forums.length, (index) {
                   return ForumBubble(
+                    showTag: !context.read<TagProvider>().isTagsEmpty(),
+                    // showTag: context.read<TagProvider>().isTagged(),
                     onTap_: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => DiscussonPage(
                             forum: _forums[index],
-                            discussions: _forums[index].discussions,
+                            // discussions: _forums[index].discussions,
                           ),
                         ),
                       ).then((value) => setState(() {

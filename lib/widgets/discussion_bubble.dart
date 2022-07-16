@@ -1,4 +1,6 @@
+import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DiscussBubble extends StatelessWidget {
   final Map<String, dynamic> discussion;

@@ -95,30 +95,33 @@ class _CommentCardState extends State<CommentCard> {
               SizedBox(
                 height: 10,
               ),
-              Container(
-                padding: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(width: 2, color: _color)),
-                child: IconButton(
-                  icon: Icon(Icons.favorite),
-                  color: _color,
-                  onPressed: () {
-                    setState(() {
-                      _color = Colors.pinkAccent;
-                      widget.like += 1;
-                    });
-                    // print(context.read<GeolocatorProvider>().getLat());
-                    // print(context.read<GeolocatorProvider>().getLong());
-                    // print("Liked");
-                  },
-                ),
-              ),
-              Container(
-                  margin: EdgeInsets.fromLTRB(20, 5, 0, 0),
-                  child: Text(widget.like.toString())),
+              // Container(
+              //   padding: EdgeInsets.all(2),
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(100),
+              //       border: Border.all(width: 2, color: _color)),
+              //   child: IconButton(
+              //     icon: Icon(Icons.favorite),
+              //     color: _color,
+              //     onPressed: () {
+              //       setState(() {
+              //         _color = Colors.pinkAccent;
+              //         widget.like += 1;
+              //       });
+              //       // print(context.read<GeolocatorProvider>().getLat());
+              //       // print(context.read<GeolocatorProvider>().getLong());
+              //       // print("Liked");
+              //     },
+              //   ),
+              // ),
+              // Container(
+              //     margin: EdgeInsets.fromLTRB(20, 5, 0, 0),
+              //     child: Text(widget.like.toString())),
               SizedBox(
                 height: 10,
+              ),
+              Divider(
+                thickness: 1,
               )
             ],
           ),
