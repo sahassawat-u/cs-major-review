@@ -5,7 +5,9 @@ import 'package:cs_major_review/models/forum_model.dart';
 import 'package:cs_major_review/pages/add_post_page.dart';
 import 'package:cs_major_review/pages/discussion_page.dart';
 import 'package:cs_major_review/pages/forum_filtering.dart';
+import 'package:cs_major_review/providers/firebase_provider.dart';
 import 'package:cs_major_review/providers/tags_provider.dart';
+import 'package:cs_major_review/providers/unis_provider.dart';
 import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:cs_major_review/widgets/forum_bubble.dart';
 import 'package:cs_major_review/widgets/forum_category.dart';
@@ -29,12 +31,7 @@ class _ForumPageState extends State<ForumPage> {
   @override
   void initState() {
     super.initState();
-    initFirebaseAndFetchForums();
-  }
-
-  void initFirebaseAndFetchForums() async {
-    await Firebase.initializeApp();
-    _firestore = FirebaseFirestore.instance;
+    _firestore = context.read<FirebaseProvider>().getFirestore();
     getForums(withTag: false);
   }
 
@@ -169,6 +166,7 @@ class _ForumPageState extends State<ForumPage> {
                       children: [
                         ForumCategory(
                           onPressed_: (() {
+                            print(context.read<UniProvider>().getUnis().length);
                             setState(() {
                               which = Category.TAG;
                             });
@@ -230,7 +228,6 @@ class _ForumPageState extends State<ForumPage> {
                         MaterialPageRoute(
                           builder: (context) => DiscussonPage(
                             forum: _forums[index],
-                            // discussions: _forums[index].discussions,
                           ),
                         ),
                       ).then((value) => setState(() {

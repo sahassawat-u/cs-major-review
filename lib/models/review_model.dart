@@ -1,15 +1,17 @@
 import 'package:cs_major_review/models/comment_model.dart';
 
-class University {
+class Review {
   final String uni;
   final double rating;
-  final String topComment;
-  final List<Comment> comments;
+  final double lat;
+  final double long;
+  final List<dynamic> comments;
 
-  University({
+  Review({
     required this.uni,
+    required this.lat,
+    required this.long,
     required this.rating,
-    required this.topComment,
     required this.comments,
   });
 }

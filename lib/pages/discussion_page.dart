@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/models/forum_model.dart';
+import 'package:cs_major_review/providers/firebase_provider.dart';
 import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:cs_major_review/widgets/clickable_tag.dart';
 import 'package:cs_major_review/widgets/discussion_bubble.dart';
 import 'package:cs_major_review/widgets/search.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,19 +35,14 @@ class _DiscussonPageState extends State<DiscussonPage> {
   @override
   void initState() {
     super.initState();
-    initFirebase();
     discussions = widget.forum.discussions;
+    _firestore = context.read<FirebaseProvider>().getFirestore();
     likes = widget.forum.likes;
     which = isLiked()
         ? Like.UPVOTE
         : isDisliked()
             ? Like.DOWNVOTE
             : Like.NEUTRAL;
-  }
-
-  void initFirebase() async {
-    await Firebase.initializeApp();
-    _firestore = FirebaseFirestore.instance;
   }
 
   void getDiscussions() async {

@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/models/comment_model.dart';
-import 'package:cs_major_review/models/uni_model.dart';
+import 'package:cs_major_review/models/review_model.dart';
 import 'package:cs_major_review/pages/add_comment_page.dart';
+import 'package:cs_major_review/providers/firebase_provider.dart';
 import 'package:cs_major_review/providers/user_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../constaints.dart';
@@ -9,8 +12,8 @@ import '../widgets/comment_list.dart';
 import 'package:provider/provider.dart';
 
 class RatingPage extends StatefulWidget {
-  final University uni;
-  const RatingPage({Key? key, required this.uni}) : super(key: key);
+  final Review review;
+  const RatingPage({Key? key, required this.review}) : super(key: key);
 
   @override
   State<RatingPage> createState() => _RatingPageState();
@@ -18,12 +21,33 @@ class RatingPage extends StatefulWidget {
 
 class _RatingPageState extends State<RatingPage> {
   double? _ratingValue;
+  List<dynamic> comments = [];
+  late FirebaseFirestore _firestore;
+  @override
+  void initState() {
+    super.initState();
+    _firestore = context.read<FirebaseProvider>().getFirestore();
+    comments = widget.review.comments;
+  }
+
+  void getComments() async {
+    final data = await _firestore
+        .collection('reviews')
+        .where('uni', isEqualTo: widget.review.uni)
+        .get();
+    final comments =
+        await _firestore.collection('reviews').doc(data.docs[0].id).get();
+    setState(() {
+      this.comments = comments.data()!['comments'];
+    });
+    getMostRecentComments();
+  }
 
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => AddCommentPage(
-        uniName: widget.uni.uni,
-        comments: widget.uni.comments,
+        uniName: widget.review.uni,
+        comments: widget.review.comments,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
@@ -50,7 +74,9 @@ class _RatingPageState extends State<RatingPage> {
               onPressed: () {
                 Navigator.of(context)
                     .push(_createRoute())
-                    .then((value) => setState(() {}));
+                    .then((value) => setState(() {
+                          getComments();
+                        }));
               },
               backgroundColor: kStar,
               child: const Icon(Icons.add_comment),
@@ -77,24 +103,26 @@ class _RatingPageState extends State<RatingPage> {
             ),
             Container(
               child: Text(
-                widget.uni.uni + " Univeristy",
+                widget.review.uni + " Univeristy",
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
               ),
             ),
-            Container(
-              child: RatingBarIndicator(
-                rating: widget.uni.rating,
-                itemCount: 5,
-                itemSize: 25.0,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: kStar,
-                ),
-              ),
-            ),
+            widget.review.comments.length > 0
+                ? Container(
+                    child: RatingBarIndicator(
+                      rating: widget.review.rating,
+                      itemCount: 5,
+                      itemSize: 25.0,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: kStar,
+                      ),
+                    ),
+                  )
+                : Text('No rating yet', style: TextStyle(color: kGreySubText)),
             Flexible(
-              child: CommentList(comments: getMostRecentComments()),
+              child: CommentList(comments: this.comments),
             ),
           ],
         ),
@@ -102,13 +130,13 @@ class _RatingPageState extends State<RatingPage> {
     );
   }
 
-  List<Comment> getMostRecentComments() {
-    widget.uni.comments.sort(
+  void getMostRecentComments() {
+    comments.sort(
       (a, b) {
-        final dateA = a.createdDate.split(' ');
+        final dateA = a['createdAt'].split(' ');
         final monthA = dateA[1];
         final dayA = dateA[2];
-        final dateB = b.createdDate.split(' ');
+        final dateB = b['createdAt'].split(' ');
         final monthB = dateB[1];
         final dayB = dateB[2];
         int numA = dateToNum(monthA, dayA);
@@ -116,7 +144,10 @@ class _RatingPageState extends State<RatingPage> {
         return (numB).compareTo(numA);
       },
     );
-    return widget.uni.comments;
+    setState(() {
+      comments = comments;
+    });
+    // return widget.review.comments;
   }
 
   int dateToNum(String month, String day) {

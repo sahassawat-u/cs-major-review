@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CommentList extends StatelessWidget {
-  final List<Comment> comments;
+  final List<dynamic> comments;
   const CommentList({Key? key, required this.comments}) : super(key: key);
 
   @override
@@ -21,12 +21,11 @@ class CommentList extends StatelessWidget {
           children: List.generate(
               comments.length,
               (index) => CommentCard(
-                  like: comments[index].like,
-                  rating: comments[index].rating,
-                  title: comments[index].title,
-                  comment: comments[index].comment,
-                  date: comments[index].createdDate,
-                  reviewed_name: comments[index].user))),
+                  rating: comments[index]['rating'],
+                  title: comments[index]['title'],
+                  comment: comments[index]['comment'],
+                  date: comments[index]['createdAt'],
+                  reviewed_name: comments[index]['user']))),
     );
   }
 }

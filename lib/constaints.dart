@@ -14,3 +14,8 @@ const kDivider = Color(0xff102D24);
 const kBorderButton = Color(0xff122F2D);
 const kForegroundColor1 = Color(0xff082D26);
 const kForegroundColor2 = Color(0xff122F2D);
+
+class ApiConstants {
+  static const String baseUrl = 'http://202.44.139.145/api/public/opendata/';
+  static const String endpoint = 'univ_uni_11_06';
+}

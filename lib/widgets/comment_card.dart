@@ -1,5 +1,3 @@
-import 'package:cs_major_review/providers/geolocator_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -14,9 +12,7 @@ class CommentCard extends StatefulWidget {
     required this.comment,
     required this.date,
     required this.reviewed_name,
-    required this.like,
   }) : super(key: key);
-  int like;
   final double rating;
   final String title;
   final String comment;

@@ -7,12 +7,7 @@ class BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.only(
-      //   bottom: 50,
-      // )',
-      // padding: EdgeInsets.only(top:20),
       height: 80,
-      // color: Colors.greenAccent,
       child: Column(children: [
         Divider(
           color: Color(0xff102D24),

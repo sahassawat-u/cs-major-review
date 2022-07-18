@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/main.dart';
 import 'package:cs_major_review/pages/register_page.dart';
+import 'package:cs_major_review/providers/firebase_provider.dart';
 import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,14 +26,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    initFirebase();
+    _auth = context.read<FirebaseProvider>().getAuth();
+    _firestore = context.read<FirebaseProvider>().getFirestore();
+    // initFirebase();
   }
 
-  void initFirebase() async {
-    await Firebase.initializeApp();
-    _auth = FirebaseAuth.instance;
-    _firestore = FirebaseFirestore.instance;
-  }
+  // void initFirebase() async {
+  //   await Firebase.initializeApp();
+  //   _auth = FirebaseAuth.instance;
+  //   _firestore = FirebaseFirestore.instance;
+  // }
 
   @override
   Widget build(BuildContext context) {

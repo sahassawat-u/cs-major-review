@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/constaints.dart';
-import 'package:cs_major_review/models/comment_model.dart';
-import 'package:cs_major_review/widgets/search_card.dart';
+import 'package:cs_major_review/providers/firebase_provider.dart';
+import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../widgets/base_card.dart';
 
 class AddCommentPage extends StatefulWidget {
-  final List<Comment> comments;
+  final List<dynamic> comments;
   final String uniName;
   const AddCommentPage(
       {Key? key, required this.comments, required this.uniName})
@@ -21,6 +23,13 @@ class _AddCommentPageState extends State<AddCommentPage> {
   late String title;
   late String comment;
   double? _ratingValue;
+  late FirebaseFirestore _firestore;
+  @override
+  void initState() {
+    super.initState();
+    _firestore = context.read<FirebaseProvider>().getFirestore();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,18 +155,39 @@ class _AddCommentPageState extends State<AddCommentPage> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
-                  onPressed: () {
-                    widget.comments.add(Comment(
-                        user: "Tester",
-                        comment: comment,
-                        title: title,
-                        createdDate: "Fri Jun 8 2022",
-                        like: 0,
-                        rating: _ratingValue ?? 0));
-                    Navigator.of(context).pop(() {
-                      setState(() {});
-                    });
-                    print("submitted $title, $comment, $_ratingValue");
+                  onPressed: () async {
+                    final db_data = await _firestore
+                        .collection('reviews')
+                        .where('uni', isEqualTo: widget.uniName)
+                        .get();
+                    final to_process_comments = await _firestore
+                        .collection('reviews')
+                        .doc(db_data.docs[0].id)
+                        .get();
+                    final comments = to_process_comments.data()!['comments'];
+                    Map<String, dynamic> newComment = {
+                      'user': context.read<UserProvider>().getUsername(),
+                      'comment': comment,
+                      'title': title,
+                      'createdAt':
+                          DateFormat("EEE MMM dd yyyy").format(DateTime.now()),
+                      'rating': _ratingValue ?? 0
+                    };
+                    comments.add(newComment);
+                    Map<String, dynamic> toUseComments = {'comments': comments};
+                    _firestore
+                        .collection('reviews')
+                        .doc(db_data.docs[0].id)
+                        .set(toUseComments, SetOptions(merge: true));
+                    final currentRating = to_process_comments.data()!['rating'];
+                    print(comments.length);
+                    _firestore
+                        .collection('reviews')
+                        .doc(db_data.docs[0].id)
+                        .set({
+                      'rating': (currentRating + _ratingValue) / comments.length
+                    }, SetOptions(merge: true));
+                    Navigator.of(context).pop();
                   },
                   child: Text("Submit Your Review"),
                   style: ElevatedButton.styleFrom(primary: kStar),

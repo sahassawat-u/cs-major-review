@@ -3,6 +3,7 @@ import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/data/tags_data.dart';
 import 'package:cs_major_review/data/uni_data.dart';
 import 'package:cs_major_review/models/forum_model.dart';
+import 'package:cs_major_review/providers/firebase_provider.dart';
 import 'package:cs_major_review/providers/tags_provider.dart';
 import 'package:cs_major_review/widgets/clickable_tag.dart';
 import 'package:cs_major_review/widgets/search.dart';
@@ -38,13 +39,7 @@ class _AddPostPageState extends State<AddPostPage> {
   @override
   void initState() {
     super.initState();
-    initFirebase();
-  }
-
-  void initFirebase() async {
-    await Firebase.initializeApp();
-    _firestore = FirebaseFirestore.instance;
-    // _firestore.collection('sdf').where(field).
+    _firestore = context.read<FirebaseProvider>().getFirestore();
   }
 
   @override
