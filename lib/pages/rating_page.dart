@@ -121,9 +121,14 @@ class _RatingPageState extends State<RatingPage> {
                     ),
                   )
                 : Text('No rating yet', style: TextStyle(color: kGreySubText)),
-            Flexible(
-              child: CommentList(comments: this.comments),
-            ),
+            this.comments.length > 0
+                ? Flexible(
+                    child: CommentList(comments: this.comments),
+                  )
+                : Container(
+                    margin: EdgeInsets.only(top: 60),
+                    child: Text('No comment yet'),
+                  )
           ],
         ),
       ),

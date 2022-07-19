@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/data/tags_data.dart';
-import 'package:cs_major_review/data/uni_data.dart';
 import 'package:cs_major_review/models/forum_model.dart';
 import 'package:cs_major_review/providers/firebase_provider.dart';
-import 'package:cs_major_review/providers/tags_provider.dart';
+import 'package:cs_major_review/providers/unis_provider.dart';
 import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:cs_major_review/widgets/clickable_tag.dart';
 import 'package:cs_major_review/widgets/search.dart';
-import 'package:cs_major_review/widgets/search_card.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -31,7 +27,8 @@ class _AddPostPageState extends State<AddPostPage> {
 
   String query = "";
   String uni = '';
-  List<String> unis = allUnis;
+  List<String> unis = [];
+  List<String> displayedUnis = [];
   TextEditingController controller = TextEditingController();
   List<String> tags = allTags;
   List<bool> flagList = List.filled(allTags.length, false);
@@ -40,6 +37,8 @@ class _AddPostPageState extends State<AddPostPage> {
   @override
   void initState() {
     super.initState();
+    unis = context.read<UniProvider>().getUniNames();
+    displayedUnis = context.read<UniProvider>().getUniNames();
     _firestore = context.read<FirebaseProvider>().getFirestore();
   }
 
@@ -100,21 +99,23 @@ class _AddPostPageState extends State<AddPostPage> {
               ),
             ),
             query.isNotEmpty
-                ? unis.isNotEmpty
+                ? displayedUnis.isNotEmpty
                     ? Container(
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            for (var uni in unis.sublist(
-                                0, unis.length <= 4 ? unis.length : 5))
+                            for (var uni in displayedUnis.sublist(
+                                0,
+                                displayedUnis.length <= 4
+                                    ? displayedUnis.length
+                                    : 5))
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     this.uni = uni;
-                                    unis.remove(uni);
-                                    allUnis.remove(uni);
+                                    displayedUnis.remove(uni);
                                     this.query = '';
                                   });
                                   controller.clear();
@@ -146,13 +147,10 @@ class _AddPostPageState extends State<AddPostPage> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 17),
               width: double.infinity,
-              // height: 320,
               child: Wrap(
                   children: List.generate(tags.length, (index) {
-                // print();
                 return ClickableTag(
                     text: tags[index],
-                    // isSelected: toBeUsedTags.contains(tags[index]),
                     isSelected: flagList[index],
                     onTap_: () {
                       setState(() {
@@ -205,7 +203,7 @@ class _AddPostPageState extends State<AddPostPage> {
                         .where((element) => flagList[tags.indexOf(element)])
                         .toList();
                     if (uni.isNotEmpty) {
-                      newTags.add(uni + " Uni.");
+                      newTags.add(uni);
                     }
                     String generatedId = const Uuid().v4();
                     Map<String, dynamic> data = {
@@ -235,14 +233,14 @@ class _AddPostPageState extends State<AddPostPage> {
   }
 
   void searchUni(String query) {
-    final unis = allUnis.where((uni) {
+    final unis = this.unis.where((uni) {
       final name = uni.toLowerCase();
       final search = query.toLowerCase();
       return name.contains(search);
     }).toList();
     setState(() {
       this.query = query;
-      this.unis = unis;
+      displayedUnis = unis;
     });
   }
 }
