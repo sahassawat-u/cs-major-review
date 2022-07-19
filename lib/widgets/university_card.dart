@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cs_major_review/models/review_model.dart';
+import 'package:cs_major_review/widgets/preview_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -48,19 +49,14 @@ class UniversityCard extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Container(
-                // height: 50,
-                // color: Colors.blue,
-                child: review.comments.length > 0
-                    ? Text(
-                        review.comments[review.comments.length - 1]['comment'],
-                        style: const TextStyle(color: kGreySubText),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        softWrap: true,
-                      )
-                    : null,
-              ),
+              review.comments.length > 0
+                  ? PreviewCard(
+                      comment: review.comments[review.comments.length - 1]
+                          ['comment'],
+                      picture: review.comments[review.comments.length - 1]
+                              ['picture'] ??
+                          profilePicture)
+                  : Text('No comment yet'),
             ],
           ),
           theBorderColor: Colors.white),

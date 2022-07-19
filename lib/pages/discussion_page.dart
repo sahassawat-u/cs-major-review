@@ -219,7 +219,9 @@ class _DiscussonPageState extends State<DiscussonPage> {
                           Map<String, dynamic> discussion = {
                             // ignore: use_build_context_synchronously
                             'user': context.read<UserProvider>().getUsername(),
-                            'comment': comment
+                            'comment': comment,
+                            'picture':
+                                context.read<UserProvider>().getPicture(),
                           };
                           to_process_discussions.add(discussion);
                           setState(() {
@@ -236,7 +238,7 @@ class _DiscussonPageState extends State<DiscussonPage> {
                       ),
                     ],
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ],
           // ),
         ),

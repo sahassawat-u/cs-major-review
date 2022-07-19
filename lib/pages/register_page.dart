@@ -164,6 +164,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     Map<String, dynamic> data = {
                       'role': role,
                       'username': username,
+                      'picure':
+                          'https://www.cornwallbusinessawards.co.uk/wp-content/uploads/2017/11/dummy450x450.jpg',
                       'email': email,
                       'forum_likes': [],
                       'forum_dislikes': [],
@@ -175,7 +177,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         role: role ?? 'Non-college',
                         email: email,
                         forumDislikes: [],
-                        forumLikes: []);
+                        forumLikes: [],
+                        picture:
+                            'https://www.cornwallbusinessawards.co.uk/wp-content/uploads/2017/11/dummy450x450.jpg');
                     Navigator.push(
                         context,
                         MaterialPageRoute(

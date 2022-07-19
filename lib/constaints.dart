@@ -19,3 +19,6 @@ class ApiConstants {
   static const String baseUrl = 'http://202.44.139.145/api/public/opendata/';
   static const String endpoint = 'univ_uni_11_06';
 }
+
+const profilePicture =
+    'https://www.cornwallbusinessawards.co.uk/wp-content/uploads/2017/11/dummy450x450.jpg';

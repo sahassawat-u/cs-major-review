@@ -66,17 +66,13 @@ class _UniversityPageState extends State<UniversityPage> {
     }
     final userLat = context.read<GeolocatorProvider>().getLat();
     final userLong = context.read<GeolocatorProvider>().getLong();
-    // print()
     // final userLat = 13.907967562084865;
     // final userLong = 100.43797301759966;
-    print('me lat: $userLat, me long: $userLong');
     _reviews.sort(((a, b) {
       final aDistance =
           pow(pow((a.lat - userLat), 2) + pow((a.long - userLong), 2), 1 / 2);
       final bDistance =
           pow(pow((b.lat - userLat), 2) + pow((b.long - userLong), 2), 1 / 2);
-      // print(aDistance);
-      // print(bDistance);
       print('-----');
       return aDistance.compareTo(bDistance);
     }));

@@ -1,5 +1,6 @@
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/models/forum_model.dart';
+import 'package:cs_major_review/widgets/profile_picture.dart';
 import 'package:cs_major_review/widgets/tag.dart';
 import 'package:flutter/material.dart';
 
@@ -47,11 +48,19 @@ class _ForumBubbleState extends State<ForumBubble> {
                 : SizedBox(),
             Row(
               children: [
+                ProfilePicture(
+                    picture: widget.forum.picture, width_: 40, height_: 40),
+                SizedBox(
+                  width: 15,
+                ),
                 Text(
                   widget.forum.topic,
-                  style: TextStyle(fontSize: 18),
-                )
+                  style: TextStyle(fontSize: 22),
+                ),
               ],
+            ),
+            SizedBox(
+              height: 12,
             ),
             Row(
               children: [

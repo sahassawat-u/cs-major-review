@@ -136,12 +136,6 @@ class _AddCommentPageState extends State<AddCommentPage> {
                             maxLines: null,
                             decoration: InputDecoration(
                               hintText: "Write your comment here...",
-                              // focusColor: Colors.white
-                              // focusedBorder: OutlineInputBorder(
-                              //   borderSide: BorderSide(
-                              //     color: kFontColor,
-                              //     width: 2.0,
-                              //   )
                             )),
                       ),
                     ),
@@ -169,6 +163,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
                       'user': context.read<UserProvider>().getUsername(),
                       'comment': comment,
                       'title': title,
+                      'picture': context.read<UserProvider>().getPicture(),
                       'createdAt':
                           DateFormat("EEE MMM dd yyyy").format(DateTime.now()),
                       'rating': _ratingValue ?? 0

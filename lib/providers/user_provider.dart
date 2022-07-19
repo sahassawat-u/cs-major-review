@@ -6,21 +6,29 @@ class UserProvider with ChangeNotifier {
   late String email;
   late List<dynamic> forumLikes;
   late List<dynamic> forumDislikes;
+  late String picture;
   void initUser(
       {required String username,
       required String role,
       required String email,
+      required String picture,
       List<dynamic>? forumLikes,
       List<dynamic>? forumDislikes}) {
     this.username = username;
     this.role = role;
     this.email = email;
+    this.picture = picture;
     this.forumLikes = forumLikes ?? [];
     this.forumDislikes = forumDislikes ?? [];
   }
 
   void updateLikes(String forumId) {
     forumLikes.add(forumId);
+    notifyListeners();
+  }
+
+  void updatePicture(String picture) {
+    this.picture = picture;
     notifyListeners();
   }
 
@@ -45,6 +53,10 @@ class UserProvider with ChangeNotifier {
 
   String getRole() {
     return role;
+  }
+
+  String getPicture() {
+    return picture;
   }
 
   String getEmail() {

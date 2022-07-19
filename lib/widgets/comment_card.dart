@@ -1,3 +1,4 @@
+import 'package:cs_major_review/widgets/profile_picture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -12,13 +13,14 @@ class CommentCard extends StatefulWidget {
     required this.comment,
     required this.date,
     required this.reviewed_name,
+    required this.picture,
   }) : super(key: key);
   final double rating;
   final String title;
   final String comment;
   final String date;
   final String reviewed_name;
-
+  final String picture;
   @override
   State<CommentCard> createState() => _CommentCardState();
 }
@@ -49,11 +51,19 @@ class _CommentCardState extends State<CommentCard> {
               SizedBox(
                 height: 10,
               ),
-              Container(
-                child: Text(
-                  widget.title,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Text(
+                      widget.title,
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  ProfilePicture(
+                      picture: widget.picture, width_: 30, height_: 30),
+                ],
               ),
               SizedBox(
                 height: 10,
@@ -72,9 +82,6 @@ class _CommentCardState extends State<CommentCard> {
                         ],
                       ),
                     ),
-                    // Text("Reviewed by ${widget.reviewed_name}",
-                    //     style: TextStyle(
-                    //         fontSize: 15, color: Color(0xffB2B9B9)))),
                     Text(widget.date, style: TextStyle(fontSize: 15)),
                   ],
                 ),
@@ -88,31 +95,6 @@ class _CommentCardState extends State<CommentCard> {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              // Container(
-              //   padding: EdgeInsets.all(2),
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(100),
-              //       border: Border.all(width: 2, color: _color)),
-              //   child: IconButton(
-              //     icon: Icon(Icons.favorite),
-              //     color: _color,
-              //     onPressed: () {
-              //       setState(() {
-              //         _color = Colors.pinkAccent;
-              //         widget.like += 1;
-              //       });
-              //       // print(context.read<GeolocatorProvider>().getLat());
-              //       // print(context.read<GeolocatorProvider>().getLong());
-              //       // print("Liked");
-              //     },
-              //   ),
-              // ),
-              // Container(
-              //     margin: EdgeInsets.fromLTRB(20, 5, 0, 0),
-              //     child: Text(widget.like.toString())),
               SizedBox(
                 height: 10,
               ),

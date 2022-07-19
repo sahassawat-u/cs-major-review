@@ -45,6 +45,7 @@ class _ForumPageState extends State<ForumPage> {
               topic: forum.get('topic'),
               user: forum.get('user'),
               createdBy: forum.get('createdAt'),
+              picture: forum.get('picture'),
               comment: forum.get('comment'),
               likes: forum.get('likes'),
               discussions: forum.get('discussions'),

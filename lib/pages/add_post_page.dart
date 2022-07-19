@@ -5,6 +5,7 @@ import 'package:cs_major_review/data/uni_data.dart';
 import 'package:cs_major_review/models/forum_model.dart';
 import 'package:cs_major_review/providers/firebase_provider.dart';
 import 'package:cs_major_review/providers/tags_provider.dart';
+import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:cs_major_review/widgets/clickable_tag.dart';
 import 'package:cs_major_review/widgets/search.dart';
 import 'package:cs_major_review/widgets/search_card.dart';
@@ -230,6 +231,7 @@ class _AddPostPageState extends State<AddPostPage> {
                       'discussions': [],
                       'tags': newTags,
                       'likes': 0,
+                      'picture': context.read<UserProvider>().getPicture(),
                       'id': generatedId,
                     };
                     // _firestore.collection('forums').add('sadf')

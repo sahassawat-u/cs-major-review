@@ -28,14 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _auth = context.read<FirebaseProvider>().getAuth();
     _firestore = context.read<FirebaseProvider>().getFirestore();
-    // initFirebase();
   }
-
-  // void initFirebase() async {
-  //   await Firebase.initializeApp();
-  //   _auth = FirebaseAuth.instance;
-  //   _firestore = FirebaseFirestore.instance;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                         role: user.docs[0].get('role'),
                         email: email,
                         forumDislikes: user.docs[0].get('forum_dislikes'),
-                        forumLikes: user.docs[0].get('forum_likes'));
+                        forumLikes: user.docs[0].get('forum_likes'),
+                        picture: user.docs[0].get('picture'));
                     Navigator.push(
                         context,
                         MaterialPageRoute(

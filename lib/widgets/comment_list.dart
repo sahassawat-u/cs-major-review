@@ -24,6 +24,7 @@ class CommentList extends StatelessWidget {
                   rating: comments[index]['rating'],
                   title: comments[index]['title'],
                   comment: comments[index]['comment'],
+                  picture: comments[index]['picture'] ?? profilePicture,
                   date: comments[index]['createdAt'],
                   reviewed_name: comments[index]['user']))),
     );
