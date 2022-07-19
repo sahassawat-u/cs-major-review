@@ -1,60 +1,62 @@
+import 'dart:async';
+
+import 'package:cs_major_review/models/review_model.dart';
+import 'package:cs_major_review/widgets/preview_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../constaints.dart';
-import '../pages/rating_page.dart';
 import 'base_card.dart';
+
 class UniversityCard extends StatelessWidget {
-  const UniversityCard({Key? key, required this.rating, required this.uni_name}) : super(key: key);
-  final double rating;
-  final String uni_name;
+  final Review review;
+  final VoidCallback onTap_;
+  const UniversityCard({Key? key, required this.review, required this.onTap_})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BaseCard(
-          theOnTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      RatingPage(),
-                )
-            );},
+          theOnTap: onTap_,
           theColor: Colors.white,
           theChild: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              review.comments.length > 0
+                  ? Container(
+                      child: RatingBarIndicator(
+                        rating: review.rating,
+                        itemCount: 5,
+                        itemSize: 25.0,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: kStar,
+                        ),
+                      ),
+                    )
+                  : Text('No rating yet',
+                      style: TextStyle(color: kGreySubText)),
+              SizedBox(
+                height: 15,
+              ),
               Container(
-                child: RatingBarIndicator(
-                  rating: rating,
-                  itemCount: 5,
-                  itemSize: 25.0,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: kStar,
-                  ),
+                child: Text(
+                  review.uni,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: 15,),
-              Container(
-                child: Text(uni_name),
+              SizedBox(
+                height: 10,
               ),
-              SizedBox(height: 15,),
-              // Container(
-              //   child: Row(
-              //     children: [
-              //       Text("reviewed by Yu"),
-              //       SizedBox(width: 200,),
-              //       Text("Date")
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(height: 15,),
-              Container(
-                child: Text("Preview..."),
-              ),
-
+              review.comments.length > 0
+                  ? PreviewCard(
+                      comment: review.comments[review.comments.length - 1]
+                          ['comment'],
+                      picture: review.comments[review.comments.length - 1]
+                              ['picture'] ??
+                          profilePicture)
+                  : Text('No comment yet'),
             ],
           ),
           theBorderColor: Colors.white),

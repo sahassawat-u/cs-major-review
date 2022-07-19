@@ -1,3 +1,4 @@
+import 'package:cs_major_review/constaints.dart';
 import 'package:flutter/material.dart';
 
 class ClickableTag extends StatelessWidget {
@@ -27,13 +28,13 @@ class ClickableTag extends StatelessWidget {
         height: 25,
         constraints: BoxConstraints(minWidth: 70),
         decoration: BoxDecoration(
-            border: Border.all(color: Color(0xff122F2D)),
-            color: isSelected ? Color(0xff122F2D) : Colors.white),
+            border: Border.all(color: kBorderButton),
+            color: isSelected ? kBorderButton : Colors.white),
         child: Text(text,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 12,
-                color: isSelected ? Colors.white : Color(0xff122F2D))),
+                color: isSelected ? Colors.white : kBorderButton)),
       ),
     );
   }

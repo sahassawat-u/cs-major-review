@@ -8,11 +8,9 @@ class Search extends StatefulWidget {
     required this.hintText,
     required this.isUsedIcon,
     required this.controller,
-    // required this.isClearText
   }) : super(key: key);
 
   final TextEditingController controller;
-  // final bool isClearText;
   final String text;
   final ValueChanged<String> onChanged;
   final String hintText;
@@ -22,12 +20,12 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  // final controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border.all(
           color: Color(0xff0B302C),
           width: 1,

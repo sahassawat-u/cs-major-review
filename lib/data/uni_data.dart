@@ -1,7 +1,16 @@
 final allUnis = <String>[
   "Mahidol",
   "Chulalongkorn",
+  "Chiang Mai",
   "Kasetsart",
-  "Kasetsart1",
-  "Kasetsart2",
+  "Thammasat",
+  "Prince of Songkla",
+  "Khon Kaen",
+  "Srinakharinwirot",
+  "Burapha",
+  "King Mongkut Thonburi",
+  "Silpakorn",
+  "Maejo",
+  "Rangsit",
+  "Siam"
 ];

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "405136640424",
+    "project_id": "cs-major-connoisseur",
+    "storage_bucket": "cs-major-connoisseur.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405136640424:android:f2dd3c26f52b678880759d",
+        "android_client_info": {
+          "package_name": "com.example.cs_major_review"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405136640424-efi9e4rvl847bqj3l5rgqff96hr878q4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_wZnmZwD6fgO4e_a1sIjOBW_9rG9R-tI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405136640424-efi9e4rvl847bqj3l5rgqff96hr878q4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
