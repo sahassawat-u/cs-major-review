@@ -161,7 +161,7 @@ class _DiscussonPageState extends State<DiscussonPage> {
               child: Wrap(
                   children: List.generate(widget.forum.tags.length, (index) {
                 return ClickableTag(
-                  isSelected: false,
+                  isSelected: true,
                   text: widget.forum.tags[index],
                   onTap_: () {},
                 );
@@ -171,13 +171,18 @@ class _DiscussonPageState extends State<DiscussonPage> {
             Container(
               // color: Colors.black,
               height: 350,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                    children: List.generate(discussions.length, (index) {
-                  return DiscussBubble(discussion: discussions[index]);
-                })),
-              ),
+              child: discussions.length > 0
+                  ? SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                          children: List.generate(discussions.length, (index) {
+                        return DiscussBubble(discussion: discussions[index]);
+                      })),
+                    )
+                  : Text(
+                      'No comment yet',
+                      textAlign: TextAlign.center,
+                    ),
             ),
             context.read<UserProvider>().getRole() == 'College'
                 ? Row(

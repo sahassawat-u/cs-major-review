@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
   void getUnis() async {
     ApiService apiService = ApiService();
     _unis = await apiService.getUnis() ?? [];
-    context.read<UniProvider>().initUser(unis: _unis);
+    context.read<UniProvider>().initUni(unis: _unis);
   }
 
   @override

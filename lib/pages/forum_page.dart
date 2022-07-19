@@ -11,7 +11,6 @@ import 'package:cs_major_review/providers/unis_provider.dart';
 import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:cs_major_review/widgets/forum_bubble.dart';
 import 'package:cs_major_review/widgets/forum_category.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -53,9 +52,9 @@ class _ForumPageState extends State<ForumPage> {
               id: forum.get('id')));
         });
       }
-      if (withTag) {
-        getTaggedForums();
-      }
+    }
+    if (withTag) {
+      getTaggedForums();
     }
   }
 
@@ -85,6 +84,9 @@ class _ForumPageState extends State<ForumPage> {
 
   FutureOr goBackPost(dynamic value) {
     getForums(withTag: false);
+    setState(() {
+      which = null;
+    });
   }
 
   @override
@@ -92,24 +94,34 @@ class _ForumPageState extends State<ForumPage> {
     return Scaffold(
         floatingActionButton: context.read<UserProvider>().getRole() ==
                 'College'
-            ? GestureDetector(
-                onTap: () {
+            ? FloatingActionButton(
+                onPressed: () {
                   Navigator.of(context).push(_createRoute()).then(goBackPost);
                 },
-                child: Container(
-                  height: 30,
-                  width: 90,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: kStar, width: 1),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [Icon(Icons.edit, color: kStar), Text('Post')],
-                  ),
-                ),
+                backgroundColor: kStar,
+                child: const Icon(Icons.edit),
               )
             : null,
+        // floatingActionButton: context.read<UserProvider>().getRole() ==
+        //         'College'
+        //     ? GestureDetector(
+        //         onTap: () {
+        //           Navigator.of(context).push(_createRoute()).then(goBackPost);
+        //         },
+        //         child: Container(
+        //           height: 30,
+        //           width: 90,
+        //           decoration: BoxDecoration(
+        //             border: Border.all(color: kStar, width: 1),
+        //             color: Colors.white,
+        //           ),
+        //           child: Row(
+        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //             children: [Icon(Icons.edit, color: kStar), Text('Post')],
+        //           ),
+        //         ),
+        //       )
+        //     : null,
         body: Container(
           child: Column(children: [
             Container(
@@ -245,15 +257,22 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   void getTaggedForums() {
-    final taggedList =
+    final coursesList =
         Provider.of<TagProvider>(context, listen: false).tags.toSet();
-    if (taggedList.isNotEmpty) {
-      final tempList = _forums
+    final unisList =
+        Provider.of<TagProvider>(context, listen: false).uniTags.toSet();
+    if (coursesList.isNotEmpty || unisList.isNotEmpty) {
+      final filtered1List = _forums
           .where((element) =>
-              element.tags.toSet().intersection(taggedList).isNotEmpty)
+              element.tags.toSet().intersection(coursesList).isNotEmpty)
+          .toList();
+      final filtered2List = _forums
+          .where((element) =>
+              element.tags.toSet().intersection(unisList).isNotEmpty)
           .toList();
       setState(() {
-        this._forums = tempList;
+        // List.from(filtered1List).addAll(filtered2List);
+        this._forums = filtered1List + filtered2List;
       });
     }
   }

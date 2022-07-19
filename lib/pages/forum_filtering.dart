@@ -1,6 +1,7 @@
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/data/tags_data.dart';
 import 'package:cs_major_review/data/uni_data.dart';
+import 'package:cs_major_review/providers/unis_provider.dart';
 import 'package:cs_major_review/widgets/clickable_tag.dart';
 import 'package:cs_major_review/widgets/search.dart';
 import 'package:cs_major_review/providers/tags_provider.dart';
@@ -16,9 +17,17 @@ class ForumFiltering extends StatefulWidget {
 
 class _ForumFilteringState extends State<ForumFiltering> {
   String query = "";
-  List<String> unis = allUnis;
+  List<String> unis = [];
+  List<String> displayedUnis = [];
   List<String> tags = allTags;
+  List<bool> flagUnis = [];
   TextEditingController controller = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    unis = context.read<UniProvider>().getUniNames();
+    displayedUnis = context.read<UniProvider>().getUniNames();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,25 +72,28 @@ class _ForumFilteringState extends State<ForumFiltering> {
                 hintText: "Search for university",
               ),
               query.isNotEmpty
-                  ? unis.length != 0
+                  ? displayedUnis.length != 0
                       ? Container(
                           width: double.infinity,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              for (var uni in unis.sublist(
-                                  0, unis.length <= 5 ? unis.length : 6))
+                              for (var uni in displayedUnis.sublist(
+                                  0,
+                                  displayedUnis.length <= 4
+                                      ? displayedUnis.length
+                                      : 5))
                                 GestureDetector(
                                   onTap: () {
                                     if (!context
                                         .read<TagProvider>()
-                                        .contains(uni + " Uni.")) {
+                                        .containUniTag(uni)) {
                                       setState(() {
                                         context
                                             .read<TagProvider>()
-                                            .addTag(uni + " Uni.");
-                                        allUnis.remove(uni);
+                                            .addUniTag(uni);
                                         unis.remove(uni);
+                                        displayedUnis.remove(uni);
                                         this.query = '';
                                       });
                                       controller.clear();
@@ -100,24 +112,19 @@ class _ForumFilteringState extends State<ForumFiltering> {
                 width: double.infinity,
                 child: Wrap(
                     children: List.generate(
-                        Provider.of<TagProvider>(context, listen: false)
-                            .tags
-                            .where((element) => element.contains("Uni"))
-                            .toList()
-                            .length, (index) {
-                  final uniTags =
-                      Provider.of<TagProvider>(context, listen: false)
-                          .tags
-                          .where((element) => element.contains("Uni"))
-                          .toList();
+                        context.read<TagProvider>().uniTags.length, (index) {
+                  final uniTags = context.read<TagProvider>().uniTags;
+                  // });
+                  print(uniTags);
                   return ClickableTag(
                       text: uniTags[index],
                       isSelected: true,
                       onTap_: () {
-                        setState(() {
-                          allUnis.add(uniTags[index].split(" ")[0]);
-                          context.read<TagProvider>().removeTag(uniTags[index]);
-                        });
+                        unis.add(uniTags[index]);
+                        context
+                            .read<TagProvider>()
+                            .removeUniTag(uniTags[index]);
+                        setState(() {});
                       });
                 })),
               ),
@@ -139,12 +146,13 @@ class _ForumFilteringState extends State<ForumFiltering> {
                     children: List.generate(tags.length, (index) {
                   return ClickableTag(
                       text: tags[index],
-                      isSelected:
-                          context.read<TagProvider>().contains(tags[index]),
+                      isSelected: context
+                          .read<TagProvider>()
+                          .containsCourseTag(tags[index]),
                       onTap_: () {
                         if (!context
                             .read<TagProvider>()
-                            .contains(tags[index])) {
+                            .containsCourseTag(tags[index])) {
                           setState(() {});
                           context.read<TagProvider>().addTag(tags[index]);
                         } else {
@@ -219,14 +227,14 @@ class _ForumFilteringState extends State<ForumFiltering> {
   }
 
   void searchUni(String query) {
-    final unis = allUnis.where((uni) {
+    final unis = this.unis.where((uni) {
       final name = uni.toLowerCase();
       final search = query.toLowerCase();
       return name.contains(search);
     }).toList();
     setState(() {
       this.query = query;
-      this.unis = unis;
+      this.displayedUnis = unis;
     });
   }
 }
