@@ -92,84 +92,89 @@ class _UniversityPageState extends State<UniversityPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          SizedBox(
-            height: 300,
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 250,
-                        color: kBackgroundColor1,
-                        child: Container(
-                          padding:
-                              EdgeInsets.only(left: 65, right: 65, top: 90),
-                          child: const BaseCard(
-                            theChild: Text(
-                              "Search for your university",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: kFontColor, fontSize: 30),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            SizedBox(
+              height: 300,
+              child: Stack(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 250,
+                          color: kBackgroundColor1,
+                          child: Container(
+                            padding:
+                                EdgeInsets.only(left: 65, right: 65, top: 90),
+                            child: const BaseCard(
+                              theChild: Text(
+                                "Search for your university",
+                                textAlign: TextAlign.center,
+                                style:
+                                    TextStyle(color: kFontColor, fontSize: 30),
+                              ),
+                              theColor: kBackgroundColor1,
+                              theBorderColor: kBackgroundColor1,
                             ),
-                            theColor: kBackgroundColor1,
-                            theBorderColor: kBackgroundColor1,
-                          ),
-                        )),
-                    Divider(
-                      color: kFontColor,
-                      thickness: 2,
-                      height: 2,
-                    ),
-                  ],
-                ),
-                Positioned(
-                  top: 215,
-                  left: 50,
-                  right: 50,
-                  child: Container(
-                    child: Search(
-                      controller: controller,
-                      isUsedIcon: true,
-                      text: query,
-                      onChanged: searchUni,
-                      hintText: "Search for university",
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            height: 400,
-            child: ListView(
-              shrinkWrap: true,
-              children: List.generate(
-                _displayedReviews.length,
-                (index) => UniversityCard(
-                  review: _displayedReviews[index],
-                  onTap_: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RatingPage(
-                          review: _displayedReviews[index],
-                        ),
+                          )),
+                      Divider(
+                        color: kFontColor,
+                        thickness: 2,
+                        height: 2,
                       ),
-                    ).then((value) => setState(() {
-                          goBackReview(value);
-                          // goBackPost(value);
-                        }));
-                  },
+                    ],
+                  ),
+                  Positioned(
+                    top: 215,
+                    left: 50,
+                    right: 50,
+                    child: Container(
+                      child: Search(
+                        controller: controller,
+                        isUsedIcon: true,
+                        text: query,
+                        onChanged: searchUni,
+                        hintText: "Search for university",
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              height: 400,
+              child: ListView(
+                shrinkWrap: true,
+                children: List.generate(
+                  _displayedReviews.length,
+                  (index) => UniversityCard(
+                    review: _displayedReviews[index],
+                    onTap_: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RatingPage(
+                            review: _displayedReviews[index],
+                          ),
+                        ),
+                      ).then((value) => setState(() {
+                            goBackReview(value);
+                            // goBackPost(value);
+                          }));
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

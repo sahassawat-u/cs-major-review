@@ -51,7 +51,6 @@ class _AddPostPageState extends State<AddPostPage> {
         backgroundColor: kStar,
       ),
       body: Container(
-        // margin: EdgeInsets.symmetric(horizontal: 30),
         height: MediaQuery.of(context).size.height,
         child: ListView(
           shrinkWrap: true,
@@ -86,10 +85,6 @@ class _AddPostPageState extends State<AddPostPage> {
                   Text(
                     "University",
                     textAlign: TextAlign.start,
-                    // style: TextStyle(
-                    //   fontSize: 18,
-                    //   fontWeight: FontWeight.w600,
-                    // ),
                   ),
                 ],
               ),
@@ -212,15 +207,6 @@ class _AddPostPageState extends State<AddPostPage> {
                     if (uni.isNotEmpty) {
                       newTags.add(uni + " Uni.");
                     }
-                    // widget.forums.add(Forum(
-                    //     topic: title,
-                    //     user: "Tester",
-                    //     createdBy: "Fri Jul 8 2022",
-                    //     comment: comment,
-                    //     num: 0,
-                    //     discussions: [],
-                    //     tags: newTags));
-                    // print();
                     String generatedId = const Uuid().v4();
                     Map<String, dynamic> data = {
                       'topic': title,
@@ -234,20 +220,7 @@ class _AddPostPageState extends State<AddPostPage> {
                       'picture': context.read<UserProvider>().getPicture(),
                       'id': generatedId,
                     };
-                    // _firestore.collection('forums').add('sadf')
                     _firestore.collection('forums').doc(generatedId).set(data);
-                    // _firestore.collection('forums').add(data);
-                    // final test = await _firestore
-                    //     .collection('forums')
-                    //     .where('user', isEqualTo: 'Minnie')
-                    //     .where('topic', isEqualTo: '1t topic')
-                    //     .get();
-                    // // print(test.docs[0].id)
-                    // if (test.docs.isNotEmpty) {
-                    //   print(test.docs[0].id);
-                    // }
-                    // _firestore.collection('forums').doc("Tester").set();
-                    // print("submitted $title, $comment, $newTags, $uni ");
                     Navigator.of(context).pop();
                   },
                   child: Text("Submit Your forum"),

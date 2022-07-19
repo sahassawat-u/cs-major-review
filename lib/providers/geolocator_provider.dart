@@ -4,22 +4,8 @@ import 'package:geolocator/geolocator.dart';
 class GeolocatorProvider with ChangeNotifier {
   late LocationPermission permission;
   late Position position;
-  // late double lat;
-  // late double long;
   void initGeo() async {
     position = await _determinePosition();
-    // permission = await Geolocator.requestPermission();
-    // bool serviceStatus = await Geolocator.isLocationServiceEnabled();
-
-    // if (permission != LocationPermission.deniedForever) {
-    //   Position position = await Geolocator.getCurrentPosition(
-    //       desiredAccuracy: LocationAccuracy.best,
-    //       forceAndroidLocationManager: true);
-    //   lat = position.latitude;
-    //   long = position.longitude;
-    //   // print(lat);
-    //   // print(long);
-    // }
   }
 
   Future<Position> _determinePosition() async {
