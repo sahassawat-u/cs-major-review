@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cs_major_review/constaints.dart';
+import 'package:cs_major_review/pages/edit_profile_page.dart';
 // import 'package:cs_major_review/pages/edit_profile_page.dart';
 import 'package:cs_major_review/widgets/profile_picture.dart';
 import 'package:flutter/material.dart';
@@ -15,34 +18,35 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late String _address;
-
-
-  // Future<Position> _determinePosition() async {
-  //   position = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.best);
-  //   print(position);
-  //   return position;
+  String _address = '';
+  late String name;
+  late int like;
+  late int dislike;
 
   Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
-
   void _getLocation() async {
-    // final coordinates = new Coordinates(context.read<GeolocatorProvider>().getLat(), context.read<GeolocatorProvider>().getLong());
     Position position = await locateUser();
     print(position);
-    List<Placemark> placemark = await placemarkFromCoordinates(position.latitude,position.longitude);
+    List<Placemark> placemark =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
     String address = ' ${place.locality}, ${place.country}';
     print(address);
+
+    _address = address;
     setState(() {
       _address = address;
-
     });
+  }
 
-    // return address;
+  FutureOr getNewState(dynamic value) {
+    setState(() {
+      name = context.read<UserProvider>().getUsername();
+    });
   }
 
   @override
@@ -50,6 +54,9 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     locateUser();
     _getLocation();
+    name = context.read<UserProvider>().getUsername();
+    like = context.read<UserProvider>().getLike();
+    dislike = context.read<UserProvider>().getDislike();
   }
 
   // String getAddress(double lat, double long) {
@@ -73,75 +80,93 @@ class _ProfilePageState extends State<ProfilePage> {
                 //   },
                 // ),
                 // Text("Back")
-                Text("My Profile",
+                Text(
+                  "My Profile",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                 ),
 
-                // Spacer(flex:2),
-                // IconButton(onPressed: (){
-                //   Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => EditProfilePage()),
-                //   );
-                // },
-                //   icon: Icon(Icons.edit))
-
+                Spacer(flex: 2),
+                IconButton(
+                    onPressed: () {
+                      print(context.read<UserProvider>().getUsername());
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditProfilePage(
+                                name:
+                                    context.read<UserProvider>().getUsername(),
+                                picture:
+                                    context.read<UserProvider>().getPicture())),
+                      ).then(getNewState);
+                    },
+                    icon: Icon(Icons.edit))
               ],
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
-              child: ProfilePicture(height_: 200, width_: 200,
+              child: ProfilePicture(
+                height_: 200,
+                width_: 200,
                 picture: context.read<UserProvider>().getPicture(),
-
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               height: 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: 15,),
+                  SizedBox(
+                    width: 15,
+                  ),
                   Column(
                     children: [
-                      Text("Forum Likes",style: TextStyle(fontSize: 15)),
+                      Text("Forum Likes", style: TextStyle(fontSize: 15)),
                       Container(
-
-                        child: Text(context.read<UserProvider>().getLikes().length.toString()),
-
+                        child: Text(like.toString()),
                       ),
                     ],
                   ),
-                  VerticalDivider(width: 60,
+                  VerticalDivider(
+                    width: 60,
                     thickness: 1,
                     // indent: 20,
                     endIndent: 10,
-                    color: kFontColor,),
+                    color: kFontColor,
+                  ),
                   Column(
                     children: [
-                      Text("Forum Dislikes",style: TextStyle(fontSize: 15)),
+                      Text("Forum Dislikes", style: TextStyle(fontSize: 15)),
                       Container(
-
-                        child: Text(context.read<UserProvider>().getDislikes().length.toString()),
-
+                        child: Text(dislike.toString()),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20,),
-            Container(
-              child: Text(context.read<UserProvider>().getUsername(),style: TextStyle(fontSize: 15)),
-
+            SizedBox(
+              height: 20,
             ),
-            SizedBox(height: 5,),
             Container(
-              child: Text(context.read<UserProvider>().getRole(),style: TextStyle(fontSize: 15)),
+              child: Text(name,
+                  // context.read<UserProvider>().getUsername(),
+                  style: TextStyle(fontSize: 15)),
             ),
-            SizedBox(height: 5,),
-
-
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              child: Text(context.read<UserProvider>().getRole(),
+                  style: TextStyle(fontSize: 15)),
+            ),
+            SizedBox(
+              height: 5,
+            ),
             Container(
               // child: TextButton(
               //     onPressed: () {getLocation(context.read<GeolocatorProvider>().getLat(),context.read<GeolocatorProvider>().getLong());  },

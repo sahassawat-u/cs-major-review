@@ -5,7 +5,6 @@ import 'package:cs_major_review/pages/login_page.dart';
 import 'package:cs_major_review/providers/firebase_provider.dart';
 import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,12 +37,12 @@ class _RegisterPageState extends State<RegisterPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Hello', style: TextStyle(fontSize: 28)),
+            Text('Register for', style: TextStyle(fontSize: 25)),
             SizedBox(
               height: 20,
             ),
-            Text('Welcome to ...',
-                style: TextStyle(fontSize: 15, color: kLoginSubTitle)),
+            Text('your biggest journey with us',
+                style: TextStyle(fontSize: 20, color: kLoginSubTitle)),
             const SizedBox(height: 40),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 40),
@@ -107,6 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 borderRadius: BorderRadius.circular(0),
               ),
               child: TextField(
+                  obscureText: true,
                   onChanged: (val) {
                     password = val;
                   },
@@ -164,7 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     Map<String, dynamic> data = {
                       'role': role,
                       'username': username,
-                      'picure':
+                      'picture':
                           'https://www.cornwallbusinessawards.co.uk/wp-content/uploads/2017/11/dummy450x450.jpg',
                       'email': email,
                       'forum_likes': [],

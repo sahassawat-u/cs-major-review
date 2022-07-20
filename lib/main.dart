@@ -1,5 +1,6 @@
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/models/api_uni_model.dart';
+import 'package:cs_major_review/pages/forum_page.dart';
 import 'package:cs_major_review/pages/profile_page.dart';
 
 import 'package:cs_major_review/pages/university_page.dart';
@@ -11,7 +12,6 @@ import 'package:cs_major_review/providers/unis_provider.dart';
 import 'package:cs_major_review/providers/user_provider.dart';
 import 'package:cs_major_review/services/api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_major_review/pages/forum_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -42,6 +42,7 @@ class _MyAppState extends State<MyApp> {
   final screens = [
     UniversityPage(),
     ForumPage(),
+    // Text('hi'),
     ProfilePage(),
   ];
   @override

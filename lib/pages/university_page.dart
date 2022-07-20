@@ -8,10 +8,10 @@ import 'package:cs_major_review/pages/rating_page.dart';
 import 'package:cs_major_review/providers/firebase_provider.dart';
 import 'package:cs_major_review/providers/geolocator_provider.dart';
 import 'package:cs_major_review/providers/unis_provider.dart';
+import 'package:cs_major_review/widgets/base_card.dart';
 import 'package:cs_major_review/widgets/search.dart';
 import 'package:cs_major_review/widgets/university_card.dart';
 import 'package:flutter/material.dart';
-import '../widgets/base_card.dart';
 import 'package:provider/provider.dart';
 
 class UniversityPage extends StatefulWidget {
@@ -49,7 +49,6 @@ class _UniversityPageState extends State<UniversityPage> {
   }
 
   void getReviews() async {
-    print('in get reviews');
     final dbReviews = await _firestore.collection('reviews').get();
     _reviews = [];
     for (var review in dbReviews.docs) {
@@ -86,7 +85,6 @@ class _UniversityPageState extends State<UniversityPage> {
     getReviews();
   }
 
-  // List<University> unis = allUniReviews;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +94,7 @@ class _UniversityPageState extends State<UniversityPage> {
         height: MediaQuery.of(context).size.height,
         child: ListView(
           shrinkWrap: true,
+          // children: [],
           children: [
             SizedBox(
               height: 300,

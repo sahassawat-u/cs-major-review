@@ -68,6 +68,7 @@ class _DiscussonPageState extends State<DiscussonPage> {
           left: 40,
           right: 40,
         ),
+        // child: Text('test'),
         child: ListView(
           shrinkWrap: true,
           children: [
@@ -86,9 +87,14 @@ class _DiscussonPageState extends State<DiscussonPage> {
             Column(children: [
               Row(
                 children: [
-                  Text(widget.forum.topic,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600))
+                  Container(
+                    child: Text(widget.forum.topic,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        softWrap: true,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600)),
+                  )
                 ],
               ),
               Row(

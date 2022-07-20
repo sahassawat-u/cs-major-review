@@ -1,5 +1,5 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs_major_review/providers/unis_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/models/api_uni_model.dart';

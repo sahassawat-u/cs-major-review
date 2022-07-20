@@ -12,7 +12,9 @@ class PreviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ProfilePicture(picture: picture, width_: 30, height_: 30),
+        picture.isNotEmpty && picture != null
+            ? ProfilePicture(picture: picture, width_: 30, height_: 30)
+            : SizedBox(),
         Container(
           margin: EdgeInsets.only(left: 42),
           height: 50,

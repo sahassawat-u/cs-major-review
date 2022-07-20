@@ -102,157 +102,142 @@ class _ForumPageState extends State<ForumPage> {
                 child: const Icon(Icons.edit),
               )
             : null,
-        // floatingActionButton: context.read<UserProvider>().getRole() ==
-        //         'College'
-        //     ? GestureDetector(
-        //         onTap: () {
-        //           Navigator.of(context).push(_createRoute()).then(goBackPost);
-        //         },
-        //         child: Container(
-        //           height: 30,
-        //           width: 90,
-        //           decoration: BoxDecoration(
-        //             border: Border.all(color: kStar, width: 1),
-        //             color: Colors.white,
-        //           ),
-        //           child: Row(
-        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //             children: [Icon(Icons.edit, color: kStar), Text('Post')],
-        //           ),
-        //         ),
-        //       )
-        //     : null,
         body: Container(
-          child: Column(children: [
-            Container(
-              width: double.infinity,
-              height: 220,
-              padding: EdgeInsets.only(left: 40),
-              color: kForumStrip,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 35,
-                  ),
-                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    Container(
-                      width: 10,
-                      child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            Icons.menu_outlined,
-                            color: kNavBarIcon,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              which = Category.TAG;
-                            });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ForumFiltering(),
-                              ),
-                            ).then(goBackFilter);
-                          }),
-                    ),
-                    SizedBox(
-                      width: 40,
-                    )
-                  ]),
-                  const SizedBox(height: 10),
-                  Row(
+          child: Column(
+              // children: [],
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 220,
+                  padding: EdgeInsets.only(left: 40),
+                  color: kForumStrip,
+                  child: Column(
                     children: [
-                      Text(
-                        "Forum",
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w600,
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                        Container(
+                          width: 10,
+                          child: IconButton(
+                              padding: EdgeInsets.zero,
+                              icon: Icon(
+                                Icons.menu_outlined,
+                                color: kNavBarIcon,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  which = Category.TAG;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ForumFiltering(),
+                                  ),
+                                ).then(goBackFilter);
+                              }),
+                        ),
+                        SizedBox(
+                          width: 40,
+                        )
+                      ]),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Text(
+                            "Forum",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        height: 60,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            ForumCategory(
+                              onPressed_: (() {
+                                print(context
+                                    .read<UniProvider>()
+                                    .getUnis()
+                                    .length);
+                                setState(() {
+                                  which = Category.TAG;
+                                });
+                                getTaggedForums();
+                              }),
+                              text: "Featured Tags",
+                              isSelected: which == Category.TAG,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            ForumCategory(
+                              onPressed_: (() async {
+                                setState(() {
+                                  which = Category.RECENT;
+                                });
+                                getMostRecentForums();
+                              }),
+                              text: "Most Recent",
+                              isSelected: which == Category.RECENT,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            ForumCategory(
+                              onPressed_: (() {
+                                setState(() {
+                                  which = Category.DISCUSS;
+                                });
+                                getMostDiscussedForums();
+                              }),
+                              text: "Most Discussed",
+                              isSelected: which == Category.DISCUSS,
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Container(
-                    height: 60,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        ForumCategory(
-                          onPressed_: (() {
-                            print(context.read<UniProvider>().getUnis().length);
-                            setState(() {
-                              which = Category.TAG;
-                            });
-                            getTaggedForums();
-                          }),
-                          text: "Featured Tags",
-                          isSelected: which == Category.TAG,
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        ForumCategory(
-                          onPressed_: (() async {
-                            setState(() {
-                              which = Category.RECENT;
-                            });
-                            getMostRecentForums();
-                          }),
-                          text: "Most Recent",
-                          isSelected: which == Category.RECENT,
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        ForumCategory(
-                          onPressed_: (() {
-                            setState(() {
-                              which = Category.DISCUSS;
-                            });
-                            getMostDiscussedForums();
-                          }),
-                          text: "Most Discussed",
-                          isSelected: which == Category.DISCUSS,
-                        ),
-                      ],
-                    ),
+                ),
+                const Divider(
+                  color: kDivider,
+                  thickness: 2,
+                  height: 0,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 30),
+                  height: 440,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                        children: List.generate(_forums.length, (index) {
+                      return ForumBubble(
+                        showTag: !context.read<TagProvider>().isTagsEmpty(),
+                        // showTag: context.read<TagProvider>().isTagged(),
+                        onTap_: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DiscussonPage(
+                                forum: _forums[index],
+                              ),
+                            ),
+                          ).then((value) => setState(() {
+                                goBackPost(value);
+                              }));
+                        },
+                        forum: _forums[index],
+                      );
+                    })),
                   ),
-                ],
-              ),
-            ),
-            const Divider(
-              color: kDivider,
-              thickness: 2,
-              height: 0,
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 30),
-              height: 440,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                    children: List.generate(_forums.length, (index) {
-                  return ForumBubble(
-                    showTag: !context.read<TagProvider>().isTagsEmpty(),
-                    // showTag: context.read<TagProvider>().isTagged(),
-                    onTap_: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DiscussonPage(
-                            forum: _forums[index],
-                          ),
-                        ),
-                      ).then((value) => setState(() {
-                            goBackPost(value);
-                          }));
-                    },
-                    forum: _forums[index],
-                  );
-                })),
-              ),
-            ),
-          ]),
+                ),
+              ]),
         ));
   }
 

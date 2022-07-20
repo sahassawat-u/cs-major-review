@@ -208,7 +208,7 @@ class _AddPostPageState extends State<AddPostPage> {
                     String generatedId = const Uuid().v4();
                     Map<String, dynamic> data = {
                       'topic': title,
-                      'user': 'Tester',
+                      'user': context.read<UserProvider>().getUsername(),
                       'createdAt':
                           DateFormat("EEE MMM dd yyyy").format(DateTime.now()),
                       'comment': comment,

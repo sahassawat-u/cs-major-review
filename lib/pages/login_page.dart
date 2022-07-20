@@ -40,11 +40,11 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 40,
             ),
-            Text('Hello', style: TextStyle(fontSize: 28)),
+            Text('CS Major Connoisseur', style: TextStyle(fontSize: 28)),
             SizedBox(
               height: 20,
             ),
-            Text('Welcome to ...',
+            Text('Be the best of the field',
                 style: TextStyle(fontSize: 15, color: kLoginSubTitle)),
             const SizedBox(height: 40),
             Container(
@@ -84,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(0),
               ),
               child: TextField(
+                  obscureText: true,
                   onChanged: (val) {
                     password = val;
                   },
@@ -114,7 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                         .collection('users')
                         .where('email', isEqualTo: email)
                         .get();
-                    // user.docs[0].get('')
+                    print(user.docs[0].get('username'));
+                    print(user.docs[0].get('picture'));
                     context.read<UserProvider>().initUser(
                         username: user.docs[0].get('username'),
                         role: user.docs[0].get('role'),
@@ -122,6 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                         forumDislikes: user.docs[0].get('forum_dislikes'),
                         forumLikes: user.docs[0].get('forum_likes'),
                         picture: user.docs[0].get('picture'));
+                    print('in here');
                     Navigator.push(
                         context,
                         MaterialPageRoute(

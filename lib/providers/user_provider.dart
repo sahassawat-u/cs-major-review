@@ -7,6 +7,8 @@ class UserProvider with ChangeNotifier {
   late List<dynamic> forumLikes;
   late List<dynamic> forumDislikes;
   late String picture;
+  late int like;
+  late int dislike;
   void initUser(
       {required String username,
       required String role,
@@ -17,6 +19,8 @@ class UserProvider with ChangeNotifier {
     this.username = username;
     this.role = role;
     this.email = email;
+    this.like = forumLikes?.length ?? 0;
+    this.dislike = forumDislikes?.length ?? 0;
     this.picture = picture;
     this.forumLikes = forumLikes ?? [];
     this.forumDislikes = forumDislikes ?? [];
@@ -24,6 +28,7 @@ class UserProvider with ChangeNotifier {
 
   void updateLikes(String forumId) {
     forumLikes.add(forumId);
+    this.like += 1;
     notifyListeners();
   }
 
@@ -33,18 +38,36 @@ class UserProvider with ChangeNotifier {
   }
 
   void updateDislikes(String forumId) {
+    this.dislike += 1;
     forumDislikes.add(forumId);
     notifyListeners();
   }
 
   void removeLikes(String forumId) {
     forumLikes.remove(forumId);
+    this.like -= 1;
     notifyListeners();
   }
 
   void removeDislikes(String forumId) {
     forumDislikes.remove(forumId);
+    this.dislike -= 1;
     notifyListeners();
+  }
+
+  void setName(String username) {
+    this.username = username;
+    notifyListeners();
+  }
+
+  int getLike() {
+    print(like);
+    return like;
+  }
+
+  int getDislike() {
+    print(dislike);
+    return dislike;
   }
 
   String getUsername() {
