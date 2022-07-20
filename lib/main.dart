@@ -1,5 +1,7 @@
 import 'package:cs_major_review/constaints.dart';
 import 'package:cs_major_review/models/api_uni_model.dart';
+import 'package:cs_major_review/pages/profile_page.dart';
+
 import 'package:cs_major_review/pages/university_page.dart';
 import 'package:cs_major_review/pages/welcome_page.dart';
 import 'package:cs_major_review/providers/firebase_provider.dart';
@@ -40,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   final screens = [
     UniversityPage(),
     ForumPage(),
-    Center(child: Text('Profile')),
+    ProfilePage(),
   ];
   @override
   void initState() {
